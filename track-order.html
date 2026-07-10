@@ -4,98 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Order - Mummy's Quality Plug</title>
+    <meta name="description" content="Track your order from Mummy's Quality Plug. Enter your Order ID to check delivery status.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📦</text></svg>">
     <link rel="stylesheet" href="style.css">
     <style>
         .track-page { max-width: 600px; margin: 60px auto; padding: 0 20px; }
         .track-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); text-align: center; }
-        .track-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; text-align: center; margin: 20px 0; }
+        .track-box h2 { font-size: 24px; color: #2c3e50; margin-bottom: 8px; }
+        .track-box p { font-size: 14px; color: #7f8c8d; margin-bottom: 20px; }
+        .track-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; text-align: center; margin-bottom: 15px; font-family: inherit; }
+        .track-box input:focus { outline: none; border-color: #e67e22; }
         .track-box button { width: 100%; padding: 14px; background: #e67e22; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
-        .track-result { margin-top: 30px; display: none; }
-        .status-timeline { text-align: left; position: relative; padding-left: 30px; border-left: 3px solid #e67e22; }
+        .track-box button:hover { background: #d35400; }
+        .track-result { margin-top: 30px; display: none; text-align: left; }
+        .status-timeline { position: relative; padding-left: 30px; border-left: 3px solid #e67e22; }
         .status-step { margin-bottom: 25px; position: relative; }
-        .status-step .dot { position: absolute; left: -37px; top: 0; width: 14px; height: 14px; background: #e67e22; border-radius: 50%; }
-        .status-step .dot.done { background: #27ae60; }
-        .status-step h4 { font-size: 14px; color: #2c3e50; }
+        .status-step .dot { position: absolute; left: -37px; top: 2px; width: 14px; height: 14px; background: #ddd; border-radius: 50%; border: 2px solid #e67e22; }
+        .status-step .dot.done { background: #27ae60; border-color: #27ae60; }
+        .status-step .dot.current { background: #e67e22; border-color: #e67e22; }
+        .status-step h4 { font-size: 14px; color: #2c3e50; margin-bottom: 2px; }
         .status-step p { font-size: 12px; color: #7f8c8d; }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="header-top">
-            <div class="logo">
-                <span class="logo-icon">📦</span>
-                <div class="logo-text">
-                    <h1>Mummy's Quality Plug</h1>
-                    <p>Quality imports, delivered to your door.</p>
-                </div>
-            </div>
-        </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
-                <li><a href="track-order.html" class="active">Track Order</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="track-page">
-        <div class="track-box">
-            <h2>📦 Track Your Order</h2>
-            <p>Enter your Order ID to check delivery status</p>
-            <input type="text" id="order-id-input" placeholder="e.g. MQP-12345678">
-            <button onclick="trackOrder()">Track Order</button>
-            <div class="track-result" id="track-result"></div>
-        </div>
-    </section>
-
-    <script>
-        async function trackOrder() {
-            var orderId = document.getElementById('order-id-input').value.trim();
-            if (!orderId) { alert('Please enter your Order ID'); return; }
-
-            try {
-                var response = await fetch('/api/orders');
-                var orders = await response.json();
-                var order = orders.find(function(o) { return o.id === orderId; });
-
-                var resultDiv = document.getElementById('track-result');
-                if (!order) {
-                    resultDiv.style.display = 'block';
-                    resultDiv.innerHTML = '<p style="color:#e74c3c; margin-top:20px;">Order not found. Please check your Order ID.</p>';
-                    return;
-                }
-
-                var statuses = ['Order Confirmed', 'Sourcing', 'In Transit to Nigeria', 'Arrived Locally', 'Out for Delivery', 'Delivered'];
-                var currentIndex = statuses.indexOf(order.status);
-
-                var html = '<h3 style="margin-bottom:20px;">Order: ' + order.id + '</h3>';
-                html += '<div class="status-timeline">';
-
-                for (var i = 0; i < statuses.length; i++) {
-                    var done = i <= currentIndex;
-                    html += '<div class="status-step">';
-                    html += '<span class="dot' + (done ? ' done' : '') + '"></span>';
-                    html += '<h4>' + statuses[i] + '</h4>';
-                    if (done && order.statusHistory) {
-                        var historyEntry = order.statusHistory.find(function(h) { return h.status === statuses[i]; });
-                        if (historyEntry) {
-                            html += '<p>' + new Date(historyEntry.date).toLocaleDateString('en-NG', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + '</p>';
-                        }
-                    }
-                    html += '</div>';
-                }
-
-                html += '</div>';
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = html;
-            } catch (error) {
-                document.getElementById('track-result').style.display = 'block';
-                document.getElementById('track-result').innerHTML = '<p style="color:#e74c3c;">Error loading order. Please try again.</p>';
+<div class="mobile-bottom-nav">
+    <div class="nav-items">
+        <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></a>
+        <a href="shop.html" class="nav-item"><span class="nav-icon">🛍️</span><span>Shop</span></a>
+        <a href="cart.html" class="nav-item"><span class="nav-icon mobile-cart-count">🛒<span class="mobile-cart-badge" id="mobile-cart-badge" style="display:none">0</span></span><span>Cart</span></a>
+        <a href="https://wa.me/2347038570649" class="nav-item" target="_blank"><span class="nav-icon">💬</span><span>Chat</span></a>
+    </div>
+</div>
+<header>
+    <div class="header-top"><div class="logo"><span class="logo-icon">📦</span><div class="logo-text"><h1>Mummy's Quality Plug</h1><p>Quality imports, delivered to your door.</p></div></div></div>
+    <nav>
+        <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="beauty-hair.html">Beauty & Hair</a></li><li><a href="home-kitchen.html">Home & Kitchen</a></li><li><a href="electronics.html">Electronics</a></li><li><a href="how-it-works.html">How It Works</a></li><li><a href="faq.html">FAQ</a></li><li><a href="track-order.html" class="active">Track Order</a></li><li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
+        </ul>
+    </nav>
+</header>
+<section class="track-page">
+    <div class="track-box">
+        <h2>📦 Track Your Order</h2>
+        <p>Enter your Order ID to check delivery status</p>
+        <input type="text" id="order-id-input" placeholder="e.g. MQP-12345678">
+        <button onclick="trackOrder()">Track Order</button>
+        <div class="track-result" id="track-result"></div>
+    </div>
+</section>
+<footer>
+    <div class="footer-content">
+        <div class="footer-brand"><h3>📦 Mummy's Quality Plug</h3><p>Quality imports, delivered to your door.</p></div>
+        <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="shop.html">Shop</a></li><li><a href="how-it-works.html">How It Works</a></li><li><a href="delivery-info.html">Delivery Info</a></li><li><a href="faq.html">FAQ</a></li><li><a href="track-order.html">Track Order</a></li></ul></div>
+        <div class="footer-links"><h4>Categories</h4><ul><li><a href="beauty-hair.html">Beauty & Hair</a></li><li><a href="home-kitchen.html">Home & Kitchen</a></li><li><a href="electronics.html">Electronics</a></li></ul></div>
+        <div class="footer-contact"><h4>Contact Us</h4><p>📞 WhatsApp: 07038570649</p><p>📧 mummysqualityplug@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p></div>
+</footer>
+<script>
+function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active');}
+async function trackOrder(){
+    var id=document.getElementById('order-id-input').value.trim();
+    if(!id){alert('Please enter your Order ID');return;}
+    try{
+        var res=await fetch('/api/orders');
+        var orders=await res.json();
+        var order=orders.find(function(o){return o.id===id;});
+        var div=document.getElementById('track-result');
+        if(!order){div.style.display='block';div.innerHTML='<p style=\"color:#e74c3c;text-align:center;\">Order not found. Please check your Order ID.</p>';return;}
+        var statuses=['Order Confirmed','Sourcing','In Transit to Nigeria','Arrived Locally','Out for Delivery','Delivered'];
+        var idx=statuses.indexOf(order.status);
+        var h='<h3 style=\"margin-bottom:20px;text-align:center;\">Order: '+order.id+'</h3><p style=\"text-align:center;color:#7f8c8d;margin-bottom:25px;\">Status: <strong>'+order.status+'</strong></p><div class=\"status-timeline\">';
+        for(var i=0;i<statuses.length;i++){
+            var cls=i<idx?'done':(i===idx?'current':'');
+            h+='<div class=\"status-step\"><span class=\"dot '+cls+'\"></span><h4>'+statuses[i]+'</h4>';
+            if(i<=idx&&order.statusHistory){
+                var entry=order.statusHistory.find(function(e){return e.status===statuses[i];});
+                if(entry)h+='<p>'+new Date(entry.date).toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</p>';
             }
+            h+='</div>';
         }
-    </script>
+        h+='</div>';
+        div.style.display='block';div.innerHTML=h;
+    }catch(e){document.getElementById('track-result').style.display='block';document.getElementById('track-result').innerHTML='<p style=\"color:#e74c3c;\">Error loading order. Please try again.</p>';}
+}
+</script>
 </body>
 </html>

@@ -5,118 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Mummy's Quality Plug</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📦</text></svg>">
-    <meta name="description" content="Mummy's Quality Plug — Quality goods from China delivered to your doorstep in Nigeria. Shop beauty, kitchen essentials, electronics, and more.">
-<meta name="keywords" content="import goods Nigeria, Chinese products Nigeria, online store Nigeria, beauty products, kitchen appliances, solar lights, Mummy's Quality Plug">
-<meta property="og:title" content="Mummy's Quality Plug — Quality Imports, Delivered to Your Door">
-<meta property="og:description" content="Shop beauty, kitchen essentials, electronics, and more — sourced with care, delivered with love.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://mummys-quality-plug.onrender.com">
-<meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="style.css">
     <style>
-        .login-page {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: #f4f6f8;
-        }
-        .login-box {
-            background: #fff;
-            padding: 50px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-        }
+        .login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f4f6f8; }
+        .login-box { background: #fff; padding: 50px 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; width: 90%; max-width: 400px; }
         .login-box .logo-icon { font-size: 48px; display: block; margin-bottom: 10px; }
         .login-box h2 { font-size: 22px; color: #2c3e50; margin-bottom: 6px; }
         .login-box p { font-size: 13px; color: #7f8c8d; margin-bottom: 24px; }
-        .login-box input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            text-align: center;
-            margin-bottom: 15px;
-            font-family: inherit;
-        }
+        .login-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; text-align: center; margin-bottom: 15px; font-family: inherit; }
         .login-box input:focus { outline: none; border-color: #e67e22; }
-        .login-box button {
-            width: 100%;
-            padding: 14px;
-            background: #e67e22;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .login-box button { width: 100%; padding: 14px; background: #e67e22; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
         .login-box button:hover { background: #d35400; }
         .login-error { color: #e74c3c; font-size: 13px; margin-top: 10px; display: none; }
         .login-error.show { display: block; }
     </style>
 </head>
 <body>
-
-    <!-- MOBILE BOTTOM NAV -->
-<div class="mobile-bottom-nav">
-    <div class="nav-items">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </a>
-        <a href="shop.html" class="nav-item">
-            <span class="nav-icon">🛍️</span>
-            <span>Shop</span>
-        </a>
-        <a href="cart.html" class="nav-item">
-            <span class="nav-icon mobile-cart-count">
-                🛒
-                <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
-            </span>
-            <span>Cart</span>
-        </a>
-        <a href="https://wa.me/2348031234567" class="nav-item" target="_blank">
-            <span class="nav-icon">💬</span>
-            <span>Chat</span>
-        </a>
+<div class="login-page">
+    <div class="login-box">
+        <span class="logo-icon">🔐</span>
+        <h2>Admin Login</h2>
+        <p>Enter password to access the admin panel</p>
+        <input type="password" id="admin-password" placeholder="Enter password" onkeypress="if(event.key==='Enter')login()">
+        <button onclick="login()">Login</button>
+        <p class="login-error" id="login-error">Incorrect password. Try again.</p>
     </div>
 </div>
-
-    <div class="login-page">
-        <div class="login-box">
-            <span class="logo-icon">🔐</span>
-            <h2>Admin Login</h2>
-            <p>Enter password to access the admin panel</p>
-            <input type="password" id="admin-password" placeholder="Enter password" onkeypress="if(event.key==='Enter') login()">
-            <button onclick="login()">Login</button>
-            <p class="login-error" id="login-error">Incorrect password. Try again.</p>
-        </div>
-    </div>
-
-    <script>
-        function login() {
-            const password = document.getElementById('admin-password').value;
-            if (password === 'mummy2025') {
-                sessionStorage.setItem('adminLoggedIn', 'true');
-                window.location.href = 'admin.html';
-            } else {
-                document.getElementById('login-error').classList.add('show');
-                document.getElementById('admin-password').value = '';
-            }
-        }
-
-        function toggleMenu() {
-    var nav = document.querySelector('.nav-links');
-    var hamburger = document.querySelector('.hamburger');
-    nav.classList.toggle('active');
-    hamburger.classList.toggle('active');
+<script>
+function login(){
+    var pw=document.getElementById('admin-password').value;
+    if(pw==='mummy2025'){sessionStorage.setItem('adminLoggedIn','true');window.location.href='admin.html';}
+    else{document.getElementById('login-error').classList.add('show');document.getElementById('admin-password').value='';}
 }
-    </script>
-
+</script>
 </body>
 </html>

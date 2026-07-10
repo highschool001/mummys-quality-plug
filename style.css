@@ -55,7 +55,7 @@ header {
 /* ===== NAVIGATION ===== */
 nav {
     background: #2c3e50;
-    padding: 0 20px;
+    padding: 0;
     position: relative;
 }
 
@@ -67,6 +67,7 @@ nav {
     align-items: center;
     gap: 5px;
     flex-wrap: wrap;
+    padding: 0 20px;
 }
 
 .nav-links li a {
@@ -89,14 +90,12 @@ nav {
 /* ===== HAMBURGER MENU ===== */
 .hamburger {
     display: none;
-    background: none;
+    background: #2c3e50;
     border: none;
     cursor: pointer;
-    padding: 14px 10px;
-    position: absolute;
-    top: 0;
-    left: 20px;
-    z-index: 200;
+    padding: 14px 15px;
+    width: 100%;
+    text-align: left;
 }
 
 .hamburger span {
@@ -120,6 +119,33 @@ nav {
 
 .hamburger.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -6px);
+}
+
+@media screen and (max-width: 900px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links li a {
+        padding: 14px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
 }
 
 /* ===== SEARCH BAR ===== */

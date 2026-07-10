@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty & Hair - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Quality imports, delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="beauty-hair.html" class="active">Beauty & Hair</a></li>
+                <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                <li><a href="electronics.html">Electronics</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="shop-header">
+        <h2>Beauty & Hair</h2>
+        <p>Skincare, haircare, and beauty essentials sourced just for you</p>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="shop-content">
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Olive Oil.jpeg" alt="Olive Oil & Hair Mayonnaise">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Beauty & Hair</span>
+                    <h3>Olive Oil & Hair Mayonnaise</h3>
+                    <p class="product-description">A nourishing blend of olive oil and hair mayonnaise that deeply moisturizes, strengthens strands, and restores natural shine.</p>
+                    <p class="product-price">₦3,600</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Olive Oil & Hair Mayonnaise', 3600, 'images/Olive Oil.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Turmeric Body Oil.jpeg" alt="Turmeric Body Oil">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Beauty & Hair</span>
+                    <h3>Turmeric Body Oil</h3>
+                    <p class="product-description">A lightweight body oil infused with turmeric to brighten and nourish the skin. Keeps your skin soft, smooth, and radiant.</p>
+                    <p class="product-price">₦3,600</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Turmeric Body Oil', 3600, 'images/Turmeric Body Oil.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg" alt="Anti-Dandruff 2-in-1 Shampoo & Conditioner">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Beauty & Hair</span>
+                    <h3>Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner</h3>
+                    <p class="product-description">A convenient 2-in-1 formula that cleanses and conditions while fighting dandruff and soothing the scalp with aloe vera.</p>
+                    <p class="product-price">₦4,380</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner', 4380, 'images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Face Cleanser Soap (Pack of 10).jpeg" alt="Face Cleanser Soap Pack of 10">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Beauty & Hair</span>
+                    <h3>Face Cleanser Soap (Pack of 10)</h3>
+                    <p class="product-description">A gentle yet effective facial cleansing soap suitable for all skin types. Removes dirt, oil, and impurities without stripping the skin.</p>
+                    <p class="product-price">₦6,500</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Face Cleanser Soap (Pack of 10)', 6500, 'images/Face Cleanser Soap (Pack of 10).jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Charcoal Toothpaste.jpeg" alt="Charcoal Toothpaste">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Beauty & Hair</span>
+                    <h3>Charcoal Toothpaste</h3>
+                    <p class="product-description">Charcoal-infused toothpaste that helps whiten teeth and freshen breath with deep-cleaning action.</p>
+                    <p class="product-price">₦4,400</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Charcoal Toothpaste', 4400, 'images/Charcoal Toothpaste.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>📦 Mummy's Quality Plug</h3>
+                <p>Quality imports, delivered to your door.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="delivery-info.html">Delivery Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                    <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                    <li><a href="electronics.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📧 mummysqualityplug@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Quality imports, delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                <li><a href="electronics.html">Electronics</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cart.html" id="cart-link" class="active">🛒 Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="shop-header">
+        <h2>Your Cart</h2>
+        <p>Review your items before checkout</p>
+    </section>
+
+    <!-- CART CONTENT -->
+    <section class="cart-page">
+        <div id="empty-cart" class="empty-cart">
+            <span class="empty-icon">🛒</span>
+            <h3>Your cart is empty</h3>
+            <p>Browse our shop and add items to get started.</p>
+            <a href="shop.html" class="btn btn-primary">Go to Shop</a>
+        </div>
+
+        <div id="cart-content" class="cart-content" style="display: none;">
+            <div id="cart-items"></div>
+
+            <div class="cart-summary">
+                <div class="cart-total-row">
+                    <span>Total:</span>
+                    <span id="cart-total" class="cart-total-price">₦0</span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary btn-block">Proceed to Checkout</a>
+                <a href="shop.html" class="btn btn-outline-dark btn-block">Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>📦 Mummy's Quality Plug</h3>
+                <p>Quality imports, delivered to your door.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="delivery-info.html">Delivery Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                    <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                    <li><a href="electronics.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📧 mummysqualityplug@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>

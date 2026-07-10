@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Quality imports, delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                <li><a href="electronics.html">Electronics</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="shop-header">
+        <h2>Checkout</h2>
+        <p>Complete your order</p>
+    </section>
+
+    <!-- CHECKOUT CONTENT -->
+    <section class="checkout-page">
+        <div id="empty-checkout" class="empty-cart">
+            <span class="empty-icon">🛒</span>
+            <h3>Your cart is empty</h3>
+            <p>Add items to your cart before checking out.</p>
+            <a href="shop.html" class="btn btn-primary">Go to Shop</a>
+        </div>
+
+        <div id="checkout-content" class="checkout-grid" style="display: none;">
+            <!-- Customer Details Form -->
+            <div class="checkout-form">
+                <h3>Delivery Details</h3>
+                <form id="order-form">
+                    <div class="form-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" required placeholder="0803 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" required placeholder="e.g. Lagos">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City / Town *</label>
+                        <input type="text" id="city" required placeholder="e.g. Ikeja">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Delivery Address *</label>
+                        <textarea id="address" rows="3" required placeholder="Enter your full delivery address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Order Notes (Optional)</label>
+                        <textarea id="notes" rows="2" placeholder="Any special instructions..."></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <div id="checkout-items"></div>
+                <div class="checkout-total-row">
+                    <span>Subtotal</span>
+                    <span id="checkout-subtotal">₦0</span>
+                </div>
+                <div class="checkout-total-row">
+                    <span>Delivery Fee</span>
+                    <span id="checkout-delivery">To be confirmed</span>
+                </div>
+                <div class="checkout-total-row checkout-grand-total">
+                    <span>Total</span>
+                    <span id="checkout-total">₦0</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" onclick="placeOrder()">Place Order</button>
+                <p class="checkout-note">After placing your order, we will contact you on WhatsApp to confirm delivery fee and payment details.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div id="order-success" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-icon">✅</span>
+            <h2>Order Placed Successfully!</h2>
+            <p>Thank you for your order. We have received your details and will contact you shortly on WhatsApp to confirm your order and delivery fee.</p>
+            <p class="modal-order-id" id="order-id-display"></p>
+            <div class="modal-buttons">
+                <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+                <a href="index.html" class="btn btn-outline-dark">Go Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>📦 Mummy's Quality Plug</h3>
+                <p>Quality imports, delivered to your door.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="delivery-info.html">Delivery Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                    <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                    <li><a href="electronics.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📧 mummysqualityplug@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        // Display checkout items
+        function displayCheckoutItems() {
+            const checkoutContainer = document.getElementById('checkout-items');
+            const emptyCheckout = document.getElementById('empty-checkout');
+            const checkoutContent = document.getElementById('checkout-content');
+            const checkoutSubtotal = document.getElementById('checkout-subtotal');
+            const checkoutTotal = document.getElementById('checkout-total');
+
+            if (cart.length === 0) {
+                emptyCheckout.style.display = 'block';
+                checkoutContent.style.display = 'none';
+                return;
+            }
+
+            emptyCheckout.style.display = 'none';
+            checkoutContent.style.display = 'grid';
+
+            checkoutContainer.innerHTML = cart.map(item => `
+                <div class="checkout-item">
+                    <div class="checkout-item-img">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="checkout-item-details">
+                        <p class="checkout-item-name">${item.name}</p>
+                        <p class="checkout-item-qty">Qty: ${item.quantity}</p>
+                    </div>
+                    <p class="checkout-item-price">₦${(item.price * item.quantity).toLocaleString()}</p>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            checkoutSubtotal.textContent = `₦${subtotal.toLocaleString()}`;
+            checkoutTotal.textContent = `₦${subtotal.toLocaleString()} + delivery`;
+        }
+
+        // Place order
+        function placeOrder() {
+            const fullname = document.getElementById('fullname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const state = document.getElementById('state').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!fullname || !phone || !state || !city || !address) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const orderId = 'MQP-' + Date.now().toString().slice(-8);
+            document.getElementById('order-id-display').textContent = 'Order ID: ' + orderId;
+            document.getElementById('order-success').style.display = 'flex';
+
+            // Clear cart
+            localStorage.removeItem('mummysCart');
+            cart = [];
+            updateCartCount();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCart();
+            displayCheckoutItems();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Quality imports, delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                <li><a href="electronics.html" class="active">Electronics</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="shop-header">
+        <h2>Electronics & Home Essentials</h2>
+        <p>Solar lights, rechargeable gadgets, and smart home items</p>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="shop-content">
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Solar Light .jpeg" alt="Solar Light 4800mAh">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Solar Light — 4800mAh</h3>
+                    <p class="product-description">A complete solar lighting kit with 3 bulbs and solar panel. Reliable lighting for hours. Easy installation, no wiring needed.</p>
+                    <p class="product-price">₦9,650</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 4800mAh', 9650, 'images/Solar Light .jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Solar Light .jpeg" alt="Solar Light 6000mAh">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Solar Light — 6000mAh</h3>
+                    <p class="product-description">Upgraded solar light system with 6000mAh battery for extended lighting time. Ideal for homes, shops, and outdoor spaces.</p>
+                    <p class="product-price">₦10,900</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 6000mAh', 10900, 'images/Solar Light .jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Solar Light .jpeg" alt="Solar Light 10000mAh">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Solar Light — 10000mAh</h3>
+                    <p class="product-description">The most powerful option with 10000mAh battery. Runs multiple bulbs through the night. Dependable, long-lasting lighting.</p>
+                    <p class="product-price">₦11,500</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 10000mAh', 11500, 'images/Solar Light .jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Rechargeable Lighter.jpeg" alt="Rechargeable Lighter">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Rechargeable Lighter</h3>
+                    <p class="product-description">A modern rechargeable lighter using electric arc technology. Windproof, flameless, and charges via USB.</p>
+                    <p class="product-price">₦2,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rechargeable Lighter', 2000, 'images/Rechargeable Lighter.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Rechargeable Solar Fan.jpeg" alt="Rechargeable Solar Fan">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Rechargeable Solar Fan</h3>
+                    <p class="product-description">A powerful rechargeable fan that charges via solar or electricity. Portable, energy-efficient, and perfect during hot weather.</p>
+                    <p class="product-price">₦56,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rechargeable Solar Fan', 56000, 'images/Rechargeable Solar Fan.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Rat Trap (Pack of 2).jpeg" alt="Rat Trap Pack of 2">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Rat Trap (Pack of 2)</h3>
+                    <p class="product-description">Sturdy and effective rat traps. Easy to set up, reusable, and chemical-free pest control for your home.</p>
+                    <p class="product-price">₦3,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rat Trap (Pack of 2)', 3000, 'images/Rat Trap (Pack of 2).jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>📦 Mummy's Quality Plug</h3>
+                <p>Quality imports, delivered to your door.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="delivery-info.html">Delivery Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                    <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                    <li><a href="electronics.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📧 mummysqualityplug@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+
+</body>
+</html>

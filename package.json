@@ -1,0 +1,12 @@
+{
+  "name": "mummys-quality-plug",
+  "version": "1.0.0",
+  "description": "Mummy's Quality Plug - Quality imports from China",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

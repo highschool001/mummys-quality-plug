@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home & Kitchen - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Quality imports, delivered to your door.</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                <li><a href="home-kitchen.html" class="active">Home & Kitchen</a></li>
+                <li><a href="electronics.html">Electronics</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="shop-header">
+        <h2>Home & Kitchen</h2>
+        <p>Quality kitchenware and home essentials to make life easier</p>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="shop-content">
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Food Flask.jpeg" alt="2 Litres Food Flask">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>2 Litres Food Flask</h3>
+                    <p class="product-description">A high-quality insulated food flask that keeps soups, stews, and meals hot or cold for hours. Great for work, school, or travel.</p>
+                    <p class="product-price">₦18,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2 Litres Food Flask', 18000, 'images/Food Flask.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Food Flask.jpeg" alt="2.8 Litres Food Flask">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>2.8 Litres Food Flask</h3>
+                    <p class="product-description">A larger 2.8-litre food flask with excellent heat retention. Perfect for family meals, outings, and meal prep.</p>
+                    <p class="product-price">₦20,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2.8 Litres Food Flask', 20000, 'images/Food Flask.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Water Bottle.jpeg" alt="2.5 Litres Water Bottle">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>2.5 Litres Water Bottle</h3>
+                    <p class="product-description">A generous 2.5-litre water bottle to help you track your daily water intake. Leak-proof and portable.</p>
+                    <p class="product-price">₦2,500</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2.5 Litres Water Bottle', 2500, 'images/Water Bottle.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg" alt="7 Litres Pressure Pot + 5 Litres Steamer">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>7 Litres Pressure Pot + 5 Litres Steamer</h3>
+                    <p class="product-description">A combo set with a 7-litre pressure pot and 5-litre steamer. Save time and gas while cooking delicious meals.</p>
+                    <p class="product-price">₦65,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('7 Litres Pressure Pot + 5 Litres Steamer', 65000, 'images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Small Storage Plate Rack.jpeg" alt="Small Storage Plate Rack">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>Small Storage Plate Rack</h3>
+                    <p class="product-description">A compact and sturdy plate rack that keeps your plates neatly stacked and easily accessible.</p>
+                    <p class="product-price">₦10,300</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Small Storage Plate Rack', 10300, 'images/Small Storage Plate Rack.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Cooking Utensils Collection.jpeg" alt="Cooking Utensils Collection">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>Cooking Utensils Collection</h3>
+                    <p class="product-description">A complete collection of essential cooking utensils including spatulas, ladles, and turners. Heat-resistant and durable.</p>
+                    <p class="product-price">₦13,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Cooking Utensils Collection', 13000, 'images/Cooking Utensils Collection.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/Crownmax Soundproof Blender.jpeg" alt="Crownmax Soundproof Blender">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>Crownmax Soundproof Blender</h3>
+                    <p class="product-description">High-performance blending without the noise. Powerful motor with soundproof enclosure. Perfect for smoothies, soups, and grinding.</p>
+                    <p class="product-price">₦210,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Crownmax Soundproof Blender', 210000, 'images/Crownmax Soundproof Blender.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="images/3-in-1 Digital Blender.jpeg" alt="3-in-1 Digital Blender">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Home & Kitchen</span>
+                    <h3>3-in-1 Digital Blender</h3>
+                    <p class="product-description">A versatile digital blender with multiple speed settings. Blend smoothies, grind dry ingredients, and mix batters with ease.</p>
+                    <p class="product-price">₦90,000</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('3-in-1 Digital Blender', 90000, 'images/3-in-1 Digital Blender.jpeg')">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>📦 Mummy's Quality Plug</h3>
+                <p>Quality imports, delivered to your door.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <li><a href="delivery-info.html">Delivery Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="beauty-hair.html">Beauty & Hair</a></li>
+                    <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+                    <li><a href="electronics.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📧 mummysqualityplug@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mummy's Quality Plug. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+
+</body>
+</html>

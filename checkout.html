@@ -27,7 +27,7 @@
                 </span>
                 <span>Cart</span>
             </a>
-            <a href="https://wa.me/2348031234567" class="nav-item" target="_blank">
+            <a href="https://wa.me/2347038570649" class="nav-item" target="_blank">
                 <span class="nav-icon">💬</span>
                 <span>Chat</span>
             </a>
@@ -172,7 +172,7 @@
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>
-                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📞 WhatsApp: 07038570649</p>
                 <p>📧 mummysqualityplug@gmail.com</p>
             </div>
         </div>
@@ -182,11 +182,14 @@
     </footer>
 
     <script>
-        // Load cart directly from localStorage
+        // Load cart directly from localStorage - no dependency on cart.js
         let cart = [];
-        const savedCart = localStorage.getItem('mummysCart');
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
+
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('mummysCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
         }
 
         function getTotalPrice() {
@@ -283,11 +286,9 @@
                         { display_name: 'Address', variable_name: 'address', value: `${address}, ${city}, ${state}` }
                     ]
                 },
-                onClose: function () {
-                    // Customer closed payment popup
-                },
+                onClose: function () {},
                 callback: function (response) {
-                                    saveOrder(fullname, phone, email, state, city, address, notes, subtotal, response.reference);
+                    saveOrder(fullname, phone, email, state, city, address, notes, subtotal, response.reference);
                 }
             });
 
@@ -313,7 +314,6 @@
                 document.getElementById('order-id-display').textContent = 'Order ID: ' + order.id;
                 document.getElementById('order-success').style.display = 'flex';
 
-                // WhatsApp notification to business
                 let itemsList = cart.map(item => `• ${item.name} x${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`).join('%0A');
                 let orderSummary = `*💰 New Paid Order - ${order.id}*%0A%0A`;
                 orderSummary += `*Customer:* ${fullname}%0A`;
@@ -326,10 +326,9 @@
                 orderSummary += `*Payment Ref:* ${paymentRef}%0A%0A`;
                 orderSummary += `View orders: ${window.location.origin}/admin-orders.html`;
 
-                const businessPhone = '2348031234567';
+                const businessPhone = '2347038570649';
                 window.open(`https://wa.me/${businessPhone}?text=${orderSummary}`, '_blank');
 
-                // WhatsApp confirmation to customer
                 let customerMsg = `Hello ${fullname}!%0A%0A`;
                 customerMsg += `Thank you for your order at Mummy's Quality Plug.%0A%0A`;
                 customerMsg += `*Order ID:* ${order.id}%0A`;
@@ -348,6 +347,8 @@
             }
         }
 
+        // Initialize
+        loadCartFromStorage();
         updateCartCount();
         displayCheckoutItems();
     </script>

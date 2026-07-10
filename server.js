@@ -212,6 +212,11 @@ app.delete('/api/orders/:id', (req, res) => {
     res.json({ success: true });
 });
 
+// API: Serve product detail page
+app.get('/product/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'product.html'));
+});
+
 // Serve HTML files
 app.get('*', (req, res) => {
     const filePath = path.join(__dirname, req.path);

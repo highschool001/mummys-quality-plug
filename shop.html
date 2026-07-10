@@ -30,11 +30,11 @@
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="cart.html" id="cart-link">🛒 Cart</a></li>
             </ul>
-            <div class="search-bar">
-    <input type="text" id="search-input" placeholder="Search products..." onkeyup="handleSearch(event)">
-    <span class="search-icon">🔍</span>
-</div>
         </nav>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search products..." onkeyup="handleSearch(event)">
+            <span class="search-icon">🔍</span>
+        </div>
     </header>
 
     <!-- SHOP HEADER -->
@@ -49,60 +49,70 @@
 
             <!-- Beauty & Hair Products -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Olive Oil.jpeg" alt="Olive Oil & Hair Mayonnaise">
-                </div>
+                <a href="product.html?id=1">
+                    <div class="product-img">
+                        <img src="images/Olive Oil.jpeg" alt="Olive Oil & Hair Mayonnaise">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Beauty & Hair</span>
-                    <h3>Olive Oil & Hair Mayonnaise</h3>
+                    <h3><a href="product.html?id=1">Olive Oil & Hair Mayonnaise</a></h3>
                     <p class="product-price">₦3,600</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Olive Oil & Hair Mayonnaise', 3600, 'images/Olive Oil.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Turmeric Body Oil.jpeg" alt="Turmeric Body Oil">
-                </div>
+                <a href="product.html?id=2">
+                    <div class="product-img">
+                        <img src="images/Turmeric Body Oil.jpeg" alt="Turmeric Body Oil">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Beauty & Hair</span>
-                    <h3>Turmeric Body Oil</h3>
+                    <h3><a href="product.html?id=2">Turmeric Body Oil</a></h3>
                     <p class="product-price">₦3,600</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Turmeric Body Oil', 3600, 'images/Turmeric Body Oil.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg" alt="Anti-Dandruff 2-in-1 Shampoo & Conditioner">
-                </div>
+                <a href="product.html?id=3">
+                    <div class="product-img">
+                        <img src="images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg" alt="Anti-Dandruff 2-in-1 Shampoo & Conditioner">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Beauty & Hair</span>
-                    <h3>Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner</h3>
+                    <h3><a href="product.html?id=3">Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner</a></h3>
                     <p class="product-price">₦4,380</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner', 4380, 'images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Face Cleanser Soap (Pack of 10).jpeg" alt="Face Cleanser Soap Pack of 10">
-                </div>
+                <a href="product.html?id=4">
+                    <div class="product-img">
+                        <img src="images/Face Cleanser Soap (Pack of 10).jpeg" alt="Face Cleanser Soap Pack of 10">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Beauty & Hair</span>
-                    <h3>Face Cleanser Soap (Pack of 10)</h3>
+                    <h3><a href="product.html?id=4">Face Cleanser Soap (Pack of 10)</a></h3>
                     <p class="product-price">₦6,500</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Face Cleanser Soap (Pack of 10)', 6500, 'images/Face Cleanser Soap (Pack of 10).jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Charcoal Toothpaste.jpeg" alt="Charcoal Toothpaste">
-                </div>
+                <a href="product.html?id=5">
+                    <div class="product-img">
+                        <img src="images/Charcoal Toothpaste.jpeg" alt="Charcoal Toothpaste">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Beauty & Hair</span>
-                    <h3>Charcoal Toothpaste</h3>
+                    <h3><a href="product.html?id=5">Charcoal Toothpaste</a></h3>
                     <p class="product-price">₦4,400</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Charcoal Toothpaste', 4400, 'images/Charcoal Toothpaste.jpeg')">Add to Cart</a>
                 </div>
@@ -110,96 +120,112 @@
 
             <!-- Home & Kitchen Products -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Food Flask.jpeg" alt="2 Litres Food Flask">
-                </div>
+                <a href="product.html?id=6">
+                    <div class="product-img">
+                        <img src="images/Food Flask.jpeg" alt="2 Litres Food Flask">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>2 Litres Food Flask</h3>
+                    <h3><a href="product.html?id=6">2 Litres Food Flask</a></h3>
                     <p class="product-price">₦18,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2 Litres Food Flask', 18000, 'images/Food Flask.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Food Flask.jpeg" alt="2.8 Litres Food Flask">
-                </div>
+                <a href="product.html?id=7">
+                    <div class="product-img">
+                        <img src="images/Food Flask.jpeg" alt="2.8 Litres Food Flask">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>2.8 Litres Food Flask</h3>
+                    <h3><a href="product.html?id=7">2.8 Litres Food Flask</a></h3>
                     <p class="product-price">₦20,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2.8 Litres Food Flask', 20000, 'images/Food Flask.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Water Bottle.jpeg" alt="2.5 Litres Water Bottle">
-                </div>
+                <a href="product.html?id=8">
+                    <div class="product-img">
+                        <img src="images/Water Bottle.jpeg" alt="2.5 Litres Water Bottle">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>2.5 Litres Water Bottle</h3>
+                    <h3><a href="product.html?id=8">2.5 Litres Water Bottle</a></h3>
                     <p class="product-price">₦2,500</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('2.5 Litres Water Bottle', 2500, 'images/Water Bottle.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg" alt="7 Litres Pressure Pot + 5 Litres Steamer">
-                </div>
+                <a href="product.html?id=9">
+                    <div class="product-img">
+                        <img src="images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg" alt="7 Litres Pressure Pot + 5 Litres Steamer">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>7 Litres Pressure Pot + 5 Litres Steamer</h3>
+                    <h3><a href="product.html?id=9">7 Litres Pressure Pot + 5 Litres Steamer</a></h3>
                     <p class="product-price">₦65,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('7 Litres Pressure Pot + 5 Litres Steamer', 65000, 'images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Small Storage Plate Rack.jpeg" alt="Small Storage Plate Rack">
-                </div>
+                <a href="product.html?id=10">
+                    <div class="product-img">
+                        <img src="images/Small Storage Plate Rack.jpeg" alt="Small Storage Plate Rack">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>Small Storage Plate Rack</h3>
+                    <h3><a href="product.html?id=10">Small Storage Plate Rack</a></h3>
                     <p class="product-price">₦10,300</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Small Storage Plate Rack', 10300, 'images/Small Storage Plate Rack.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Cooking Utensils Collection.jpeg" alt="Cooking Utensils Collection">
-                </div>
+                <a href="product.html?id=11">
+                    <div class="product-img">
+                        <img src="images/Cooking Utensils Collection.jpeg" alt="Cooking Utensils Collection">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>Cooking Utensils Collection</h3>
+                    <h3><a href="product.html?id=11">Cooking Utensils Collection</a></h3>
                     <p class="product-price">₦13,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Cooking Utensils Collection', 13000, 'images/Cooking Utensils Collection.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Crownmax Soundproof Blender.jpeg" alt="Crownmax Soundproof Blender">
-                </div>
+                <a href="product.html?id=12">
+                    <div class="product-img">
+                        <img src="images/Crownmax Soundproof Blender.jpeg" alt="Crownmax Soundproof Blender">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>Crownmax Soundproof Blender</h3>
+                    <h3><a href="product.html?id=12">Crownmax Soundproof Blender</a></h3>
                     <p class="product-price">₦210,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Crownmax Soundproof Blender', 210000, 'images/Crownmax Soundproof Blender.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/3-in-1 Digital Blender.jpeg" alt="3-in-1 Digital Blender">
-                </div>
+                <a href="product.html?id=13">
+                    <div class="product-img">
+                        <img src="images/3-in-1 Digital Blender.jpeg" alt="3-in-1 Digital Blender">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Home & Kitchen</span>
-                    <h3>3-in-1 Digital Blender</h3>
+                    <h3><a href="product.html?id=13">3-in-1 Digital Blender</a></h3>
                     <p class="product-price">₦90,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('3-in-1 Digital Blender', 90000, 'images/3-in-1 Digital Blender.jpeg')">Add to Cart</a>
                 </div>
@@ -207,72 +233,84 @@
 
             <!-- Electronics & Home Essentials -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Solar Light .jpeg" alt="Solar Light 4800mAh">
-                </div>
+                <a href="product.html?id=14">
+                    <div class="product-img">
+                        <img src="images/Solar Light .jpeg" alt="Solar Light 4800mAh">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Solar Light — 4800mAh</h3>
+                    <h3><a href="product.html?id=14">Solar Light — 4800mAh</a></h3>
                     <p class="product-price">₦9,650</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 4800mAh', 9650, 'images/Solar Light .jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Solar Light .jpeg" alt="Solar Light 6000mAh">
-                </div>
+                <a href="product.html?id=15">
+                    <div class="product-img">
+                        <img src="images/Solar Light .jpeg" alt="Solar Light 6000mAh">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Solar Light — 6000mAh</h3>
+                    <h3><a href="product.html?id=15">Solar Light — 6000mAh</a></h3>
                     <p class="product-price">₦10,900</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 6000mAh', 10900, 'images/Solar Light .jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Solar Light .jpeg" alt="Solar Light 10000mAh">
-                </div>
+                <a href="product.html?id=16">
+                    <div class="product-img">
+                        <img src="images/Solar Light .jpeg" alt="Solar Light 10000mAh">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Solar Light — 10000mAh</h3>
+                    <h3><a href="product.html?id=16">Solar Light — 10000mAh</a></h3>
                     <p class="product-price">₦11,500</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Solar Light — 10000mAh', 11500, 'images/Solar Light .jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Rechargeable Lighter.jpeg" alt="Rechargeable Lighter">
-                </div>
+                <a href="product.html?id=17">
+                    <div class="product-img">
+                        <img src="images/Rechargeable Lighter.jpeg" alt="Rechargeable Lighter">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Rechargeable Lighter</h3>
+                    <h3><a href="product.html?id=17">Rechargeable Lighter</a></h3>
                     <p class="product-price">₦2,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rechargeable Lighter', 2000, 'images/Rechargeable Lighter.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Rechargeable Solar Fan.jpeg" alt="Rechargeable Solar Fan">
-                </div>
+                <a href="product.html?id=18">
+                    <div class="product-img">
+                        <img src="images/Rechargeable Solar Fan.jpeg" alt="Rechargeable Solar Fan">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Rechargeable Solar Fan</h3>
+                    <h3><a href="product.html?id=18">Rechargeable Solar Fan</a></h3>
                     <p class="product-price">₦56,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rechargeable Solar Fan', 56000, 'images/Rechargeable Solar Fan.jpeg')">Add to Cart</a>
                 </div>
             </div>
 
             <div class="product-card">
-                <div class="product-img">
-                    <img src="images/Rat Trap (Pack of 2).jpeg" alt="Rat Trap Pack of 2">
-                </div>
+                <a href="product.html?id=19">
+                    <div class="product-img">
+                        <img src="images/Rat Trap (Pack of 2).jpeg" alt="Rat Trap Pack of 2">
+                    </div>
+                </a>
                 <div class="product-info">
                     <span class="product-category">Electronics</span>
-                    <h3>Rat Trap (Pack of 2)</h3>
+                    <h3><a href="product.html?id=19">Rat Trap (Pack of 2)</a></h3>
                     <p class="product-price">₦3,000</p>
                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('Rat Trap (Pack of 2)', 3000, 'images/Rat Trap (Pack of 2).jpeg')">Add to Cart</a>
                 </div>

@@ -153,6 +153,20 @@ function renderProducts(products) {
     `).join('');
 }
 
+// Make product cards clickable
+document.addEventListener('DOMContentLoaded', function () {
+    // This only affects dynamically rendered product cards from API
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.product-card');
+        if (card) {
+            const link = card.querySelector('a[href*="product.html"]');
+            if (link && !e.target.closest('button') && !e.target.closest('.btn')) {
+                window.location.href = link.href;
+            }
+        }
+    });
+});
+
 // Check for search query on shop page
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);

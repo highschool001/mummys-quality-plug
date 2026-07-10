@@ -67,22 +67,32 @@ function getTotalPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 }
 
-// Update cart count display in nav
+// Update cart count display in nav and mobile badge
 function updateCartCount() {
     const cartLink = document.getElementById('cart-link');
+    const mobileBadge = document.getElementById('mobile-cart-badge');
+    const totalItems = getTotalItems();
+
     if (cartLink) {
-        const totalItems = getTotalItems();
         if (totalItems > 0) {
             cartLink.innerHTML = `🛒 Cart (${totalItems})`;
         } else {
             cartLink.innerHTML = '🛒 Cart';
         }
     }
+
+    if (mobileBadge) {
+        if (totalItems > 0) {
+            mobileBadge.style.display = 'flex';
+            mobileBadge.textContent = totalItems;
+        } else {
+            mobileBadge.style.display = 'none';
+        }
+    }
 }
 
-// Show message when item is added
+// Show toast notification when item is added
 function showAddedMessage(name) {
-    // Remove existing toast
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
 
@@ -96,6 +106,47 @@ function showAddedMessage(name) {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
     }, 2500);
+}
+
+// Display cart items on cart page
+function displayCartItems() {
+    const cartContainer = document.getElementById('cart-items');
+    const emptyCart = document.getElementById('empty-cart');
+    const cartContent = document.getElementById('cart-content');
+    const cartTotal = document.getElementById('cart-total');
+
+    if (!cartContainer) return;
+
+    if (cart.length === 0) {
+        emptyCart.style.display = 'block';
+        cartContent.style.display = 'none';
+    } else {
+        emptyCart.style.display = 'none';
+        cartContent.style.display = 'block';
+
+        cartContainer.innerHTML = cart.map((item, index) => `
+            <div class="cart-item">
+                <div class="cart-item-img">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.src='images/placeholder.jpeg'">
+                </div>
+                <div class="cart-item-details">
+                    <h4>${item.name}</h4>
+                    <p class="cart-item-price">₦${item.price.toLocaleString()}</p>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                    <span>${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
+                <div class="cart-item-subtotal">
+                    ₦${(item.price * item.quantity).toLocaleString()}
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})">✕</button>
+            </div>
+        `).join('');
+
+        cartTotal.textContent = `₦${getTotalPrice().toLocaleString()}`;
+    }
 }
 
 // ===== SEARCH FUNCTIONALITY =====
@@ -129,7 +180,7 @@ function renderProducts(products) {
 
     if (products.length === 0) {
         productGrid.innerHTML = `
-            <div class="no-results">
+            <div class="no-results" style="grid-column: 1/-1; text-align:center; padding:60px;">
                 <p>No products found. Try a different search term.</p>
                 <a href="shop.html" class="btn btn-primary">View All Products</a>
             </div>
@@ -139,12 +190,14 @@ function renderProducts(products) {
 
     productGrid.innerHTML = products.map(product => `
         <div class="product-card">
-            <div class="product-img">
-                <img src="${product.image}" alt="${product.name}">
-            </div>
+            <a href="product.html?id=${product.id}">
+                <div class="product-img">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder.jpeg'">
+                </div>
+            </a>
             <div class="product-info">
                 <span class="product-category">${product.category}</span>
-                <h3>${product.name}</h3>
+                <h3><a href="product.html?id=${product.id}">${product.name}</a></h3>
                 <p class="product-price">₦${product.price.toLocaleString()}</p>
                 <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">Add to Cart</a>
             </div>
@@ -152,72 +205,13 @@ function renderProducts(products) {
     `).join('');
 }
 
-// Make product cards clickable
-document.addEventListener('DOMContentLoaded', function () {
-    // This only affects dynamically rendered product cards from API
-    document.addEventListener('click', function(e) {
-        const card = e.target.closest('.product-card');
-        if (card) {
-            const link = card.querySelector('a[href*="product.html"]');
-            if (link && !e.target.closest('button') && !e.target.closest('.btn')) {
-                window.location.href = link.href;
-            }
-        }
-    });
-});
-
 // Check for search query on shop page
 document.addEventListener('DOMContentLoaded', function () {
+    loadCart();
+
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('search');
     if (searchQuery && window.location.pathname.includes('shop.html')) {
         loadProducts(searchQuery);
     }
-});
-
-// Display cart items on cart page
-function displayCartItems() {
-    const cartContainer = document.getElementById('cart-items');
-    const emptyCart = document.getElementById('empty-cart');
-    const cartContent = document.getElementById('cart-content');
-    const cartTotal = document.getElementById('cart-total');
-
-    if (!cartContainer) return;
-
-    if (cart.length === 0) {
-        emptyCart.style.display = 'block';
-        cartContent.style.display = 'none';
-    } else {
-        emptyCart.style.display = 'none';
-        cartContent.style.display = 'block';
-
-        cartContainer.innerHTML = cart.map((item, index) => `
-            <div class="cart-item">
-                <div class="cart-item-img">
-                    <img src="${item.image}" alt="${item.name}">
-                </div>
-                <div class="cart-item-details">
-                    <h4>${item.name}</h4>
-                    <p class="cart-item-price">₦${item.price.toLocaleString()}</p>
-                </div>
-                <div class="cart-item-quantity">
-                    <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
-                    <span>${item.quantity}</span>
-                    <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
-                </div>
-                <div class="cart-item-subtotal">
-                    ₦${(item.price * item.quantity).toLocaleString()}
-                </div>
-                <button class="remove-btn" onclick="removeFromCart(${index})">✕</button>
-            </div>
-        `).join('');
-
-        cartTotal.textContent = `₦${getTotalPrice().toLocaleString()}`;
-    }
-}
-
-// Initialize cart on page load
-document.addEventListener('DOMContentLoaded', function () {
-    loadCart();
-    displayCartItems();
 });

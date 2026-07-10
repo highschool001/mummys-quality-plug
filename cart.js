@@ -82,21 +82,20 @@ function updateCartCount() {
 
 // Show message when item is added
 function showAddedMessage(name) {
-    const msg = document.createElement('div');
-    msg.className = 'cart-message';
-    msg.textContent = `${name} added to cart!`;
-    document.body.appendChild(msg);
+    // Remove existing toast
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
 
-    setTimeout(() => {
-        msg.classList.add('show');
-    }, 100);
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `✅ ${name} added to cart!`;
+    document.body.appendChild(toast);
 
+    setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
-        msg.classList.remove('show');
-        setTimeout(() => {
-            document.body.removeChild(msg);
-        }, 300);
-    }, 2000);
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
 }
 
 // ===== SEARCH FUNCTIONALITY =====

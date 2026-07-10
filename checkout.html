@@ -347,10 +347,13 @@
             }
         }
 
-        // Initialize
-        loadCartFromStorage();
-        updateCartCount();
-        displayCheckoutItems();
+            // Initialize - wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartFromStorage();
+            updateCartCount();
+            displayCheckoutItems();
+        });
+    </script>
     </script>
 </body>
 </html>

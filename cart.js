@@ -99,6 +99,69 @@ function showAddedMessage(name) {
     }, 2000);
 }
 
+// ===== SEARCH FUNCTIONALITY =====
+function handleSearch(event) {
+    if (event.key === 'Enter') {
+        const query = document.getElementById('search-input').value.trim();
+        if (query) {
+            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        }
+    }
+}
+
+// Load products from API or fallback to static HTML
+async function loadProducts(searchQuery = '', categoryFilter = 'All') {
+    try {
+        const url = searchQuery
+            ? `/api/products?search=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(categoryFilter)}`
+            : `/api/products?category=${encodeURIComponent(categoryFilter)}`;
+
+        const response = await fetch(url);
+        const products = await response.json();
+        renderProducts(products);
+    } catch (error) {
+        console.log('Using static product display');
+    }
+}
+
+function renderProducts(products) {
+    const productGrid = document.querySelector('.product-grid');
+    if (!productGrid) return;
+
+    if (products.length === 0) {
+        productGrid.innerHTML = `
+            <div class="no-results">
+                <p>No products found. Try a different search term.</p>
+                <a href="shop.html" class="btn btn-primary">View All Products</a>
+            </div>
+        `;
+        return;
+    }
+
+    productGrid.innerHTML = products.map(product => `
+        <div class="product-card">
+            <div class="product-img">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="product-info">
+                <span class="product-category">${product.category}</span>
+                <h3>${product.name}</h3>
+                <p class="product-price">₦${product.price.toLocaleString()}</p>
+                <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="addToCart('${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">Add to Cart</a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Check for search query on shop page
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+    if (searchQuery && window.location.pathname.includes('shop.html')) {
+        loadProducts(searchQuery);
+    }
+});
+
 // Display cart items on cart page
 function displayCartItems() {
     const cartContainer = document.getElementById('cart-items');

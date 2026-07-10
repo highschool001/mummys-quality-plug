@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Mummy's Quality Plug</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-page {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .admin-header h2 { font-size: 28px; color: #2c3e50; }
+        .btn-add {
+            background: #27ae60;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-add:hover { background: #219a52; }
+        .admin-table {
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .admin-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .admin-table th {
+            background: #2c3e50;
+            color: #fff;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .admin-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        .admin-table img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .btn-edit {
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-delete {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        .modal-box h3 { margin-bottom: 20px; }
+        .modal-box .form-group { margin-bottom: 15px; }
+        .modal-box .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+        .modal-box .form-group input,
+        .modal-box .form-group select,
+        .modal-box .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        .btn-cancel { background: #95a5a6; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .btn-save { background: #27ae60; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .admin-search { margin-bottom: 20px; }
+        .admin-search input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <div class="logo-text">
+                    <h1>Mummy's Quality Plug</h1>
+                    <p>Admin Panel</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="admin-page">
+        <div class="admin-header">
+            <h2>Product Management</h2>
+            <button class="btn-add" onclick="openAddModal()">+ Add New Product</button>
+        </div>
+
+        <div class="admin-search">
+            <input type="text" id="admin-search" placeholder="Search products..." onkeyup="filterAdminProducts()">
+        </div>
+
+        <div class="admin-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price (₦)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-product-list"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-box">
+            <h3 id="modal-title">Add New Product</h3>
+            <input type="hidden" id="product-id">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="prod-name" required>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="prod-category">
+                    <option value="Beauty & Hair">Beauty & Hair</option>
+                    <option value="Home & Kitchen">Home & Kitchen</option>
+                    <option value="Electronics">Electronics</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Price (₦)</label>
+                <input type="number" id="prod-price" required>
+            </div>
+            <div class="form-group">
+                <label>Image Path</label>
+                <input type="text" id="prod-image" required placeholder="images/filename.jpeg">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="prod-description" rows="3" required></textarea>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-save" onclick="saveProduct()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allProducts = [];
+
+        async function loadAdminProducts() {
+            const response = await fetch('/api/products');
+            allProducts = await response.json();
+            displayProducts(allProducts);
+        }
+
+        function displayProducts(products) {
+            const tbody = document.getElementById('admin-product-list');
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td><img src="${p.image}" alt="${p.name}" onerror="this.src='images/placeholder.jpeg'"></td>
+                    <td>${p.name}</td>
+                    <td>${p.category}</td>
+                    <td>₦${p.price.toLocaleString()}</td>
+                    <td>
+                        <button class="btn-edit" onclick="openEditModal(${p.id})">Edit</button>
+                        <button class="btn-delete" onclick="deleteProduct(${p.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterAdminProducts() {
+            const query = document.getElementById('admin-search').value.toLowerCase();
+            const filtered = allProducts.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query)
+            );
+            displayProducts(filtered);
+        }
+
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = 'Add New Product';
+            document.getElementById('product-id').value = '';
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-category').value = 'Beauty & Hair';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-image').value = '';
+            document.getElementById('prod-description').value = '';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function openEditModal(id) {
+            const product = allProducts.find(p => p.id === id);
+            if (!product) return;
+            document.getElementById('modal-title').textContent = 'Edit Product';
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('prod-name').value = product.name;
+            document.getElementById('prod-category').value = product.category;
+            document.getElementById('prod-price').value = product.price;
+            document.getElementById('prod-image').value = product.image;
+            document.getElementById('prod-description').value = product.description;
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+        }
+
+        async function saveProduct() {
+            const id = document.getElementById('product-id').value;
+            const product = {
+                name: document.getElementById('prod-name').value,
+                category: document.getElementById('prod-category').value,
+                price: parseInt(document.getElementById('prod-price').value),
+                image: document.getElementById('prod-image').value,
+                description: document.getElementById('prod-description').value
+            };
+
+            if (!product.name || !product.price || !product.image) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            if (id) {
+                await fetch(`/api/products/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                });
+            } else {
+                await fetch('/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                });
+            }
+
+            closeModal();
+            loadAdminProducts();
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+            await fetch(`/api/products/${id}`, { method: 'DELETE' });
+            loadAdminProducts();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAdminProducts);
+    </script>
+
+</body>
+</html>

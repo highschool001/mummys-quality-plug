@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "name": "Olive Oil & Hair Mayonnaise",
+    "price": 3600,
+    "category": "Beauty & Hair",
+    "description": "A nourishing blend of olive oil and hair mayonnaise that deeply moisturizes, strengthens strands, and restores natural shine.",
+    "image": "images/Olive Oil.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Turmeric Body Oil",
+    "price": 3600,
+    "category": "Beauty & Hair",
+    "description": "A lightweight body oil infused with turmeric to brighten and nourish the skin.",
+    "image": "images/Turmeric Body Oil.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner",
+    "price": 4380,
+    "category": "Beauty & Hair",
+    "description": "A convenient 2-in-1 formula that cleanses and conditions while fighting dandruff.",
+    "image": "images/Anti-Dandruff 2-in-1 Aloe Vera Shampoo & Conditioner.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Face Cleanser Soap (Pack of 10)",
+    "price": 6500,
+    "category": "Beauty & Hair",
+    "description": "A gentle yet effective facial cleansing soap suitable for all skin types.",
+    "image": "images/Face Cleanser Soap (Pack of 10).jpeg"
+  },
+  {
+    "id": 5,
+    "name": "Charcoal Toothpaste",
+    "price": 4400,
+    "category": "Beauty & Hair",
+    "description": "Charcoal-infused toothpaste that helps whiten teeth and freshen breath.",
+    "image": "images/Charcoal Toothpaste.jpeg"
+  },
+  {
+    "id": 6,
+    "name": "2 Litres Food Flask",
+    "price": 18000,
+    "category": "Home & Kitchen",
+    "description": "A high-quality insulated food flask that keeps meals hot or cold for hours.",
+    "image": "images/Food Flask.jpeg"
+  },
+  {
+    "id": 7,
+    "name": "2.8 Litres Food Flask",
+    "price": 20000,
+    "category": "Home & Kitchen",
+    "description": "A larger 2.8-litre food flask with excellent heat retention. Perfect for family meals.",
+    "image": "images/Food Flask.jpeg"
+  },
+  {
+    "id": 8,
+    "name": "2.5 Litres Water Bottle",
+    "price": 2500,
+    "category": "Home & Kitchen",
+    "description": "A generous 2.5-litre water bottle to help you track your daily water intake.",
+    "image": "images/Water Bottle.jpeg"
+  },
+  {
+    "id": 9,
+    "name": "7 Litres Pressure Pot + 5 Litres Steamer",
+    "price": 65000,
+    "category": "Home & Kitchen",
+    "description": "A combo set with a 7-litre pressure pot and 5-litre steamer. Save time and gas.",
+    "image": "images/7 Litres Pressure Pot + 5 Litres Steamer.jpeg"
+  },
+  {
+    "id": 10,
+    "name": "Small Storage Plate Rack",
+    "price": 10300,
+    "category": "Home & Kitchen",
+    "description": "A compact and sturdy plate rack that keeps your plates neatly stacked.",
+    "image": "images/Small Storage Plate Rack.jpeg"
+  },
+  {
+    "id": 11,
+    "name": "Cooking Utensils Collection",
+    "price": 13000,
+    "category": "Home & Kitchen",
+    "description": "A complete collection of essential cooking utensils including spatulas, ladles, and turners.",
+    "image": "images/Cooking Utensils Collection.jpeg"
+  },
+  {
+    "id": 12,
+    "name": "Crownmax Soundproof Blender",
+    "price": 210000,
+    "category": "Home & Kitchen",
+    "description": "High-performance blending without the noise. Powerful motor with soundproof enclosure.",
+    "image": "images/Crownmax Soundproof Blender.jpeg"
+  },
+  {
+    "id": 13,
+    "name": "3-in-1 Digital Blender",
+    "price": 90000,
+    "category": "Home & Kitchen",
+    "description": "A versatile digital blender with multiple speed settings. Blend, grind, and mix with ease.",
+    "image": "images/3-in-1 Digital Blender.jpeg"
+  },
+  {
+    "id": 14,
+    "name": "Solar Light — 4800mAh",
+    "price": 9650,
+    "category": "Electronics",
+    "description": "A complete solar lighting kit with 3 bulbs and solar panel. Reliable lighting for hours.",
+    "image": "images/Solar Light .jpeg"
+  },
+  {
+    "id": 15,
+    "name": "Solar Light — 6000mAh",
+    "price": 10900,
+    "category": "Electronics",
+    "description": "Upgraded solar light system with 6000mAh battery for extended lighting time.",
+    "image": "images/Solar Light .jpeg"
+  },
+  {
+    "id": 16,
+    "name": "Solar Light — 10000mAh",
+    "price": 11500,
+    "category": "Electronics",
+    "description": "The most powerful option with 10000mAh battery. Runs multiple bulbs through the night.",
+    "image": "images/Solar Light .jpeg"
+  },
+  {
+    "id": 17,
+    "name": "Rechargeable Lighter",
+    "price": 2000,
+    "category": "Electronics",
+    "description": "A modern rechargeable lighter using electric arc technology. Windproof and flameless.",
+    "image": "images/Rechargeable Lighter.jpeg"
+  },
+  {
+    "id": 18,
+    "name": "Rechargeable Solar Fan",
+    "price": 56000,
+    "category": "Electronics",
+    "description": "A powerful rechargeable fan that charges via solar or electricity. Portable and energy-efficient.",
+    "image": "images/Rechargeable Solar Fan.jpeg"
+  },
+  {
+    "id": 19,
+    "name": "Rat Trap (Pack of 2)",
+    "price": 3000,
+    "category": "Electronics",
+    "description": "Sturdy and effective rat traps. Easy to set up, reusable, and chemical-free.",
+    "image": "images/Rat Trap (Pack of 2).jpeg"
+  }
+]

@@ -6,120 +6,44 @@
     <title>Admin Panel - Mummy's Quality Plug</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-page {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+        .admin-page { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
         .admin-header h2 { font-size: 28px; color: #2c3e50; }
-        .btn-add {
-            background: #27ae60;
-            color: #fff;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
+        .admin-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-add { background: #27ae60; color: #fff; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
         .btn-add:hover { background: #219a52; }
-        .admin-table {
-            width: 100%;
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
-        .admin-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .admin-table th {
-            background: #2c3e50;
-            color: #fff;
-            padding: 14px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .admin-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #eee;
-            font-size: 13px;
-        }
-        .admin-table img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-        .btn-edit {
-            background: #e67e22;
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-right: 5px;
-        }
-        .btn-delete {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
+        .btn-manage-cat { background: #8e44ad; color: #fff; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-manage-cat:hover { background: #7d3c98; }
+        .admin-table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .admin-table table { width: 100%; border-collapse: collapse; }
+        .admin-table th { background: #2c3e50; color: #fff; padding: 14px; text-align: left; font-size: 13px; font-weight: 600; }
+        .admin-table td { padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 13px; }
+        .admin-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+        .btn-edit { background: #e67e22; color: #fff; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 5px; }
+        .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.active { display: flex; }
-        .modal-box {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-        }
+        .modal-box { background: #fff; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
         .modal-box h3 { margin-bottom: 20px; }
         .modal-box .form-group { margin-bottom: 15px; }
         .modal-box .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
         .modal-box .form-group input,
         .modal-box .form-group select,
-        .modal-box .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-        }
+        .modal-box .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit; }
         .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
         .btn-cancel { background: #95a5a6; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
         .btn-save { background: #27ae60; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
         .admin-search { margin-bottom: 20px; }
-        .admin-search input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
+        .admin-search input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .image-preview { margin-top: 10px; max-width: 150px; }
+        .image-preview img { width: 100%; border-radius: 6px; }
+        .upload-status { font-size: 12px; color: #27ae60; margin-top: 5px; }
+        .cat-list { list-style: none; }
+        .cat-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .cat-list li button { background: #e74c3c; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        .add-cat-row { display: flex; gap: 10px; margin-top: 15px; }
+        .add-cat-row input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .add-cat-row button { background: #27ae60; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -139,7 +63,10 @@
     <section class="admin-page">
         <div class="admin-header">
             <h2>Product Management</h2>
-            <button class="btn-add" onclick="openAddModal()">+ Add New Product</button>
+            <div class="admin-buttons">
+                <button class="btn-manage-cat" onclick="openCategoryModal()">Manage Categories</button>
+                <button class="btn-add" onclick="openAddModal()">+ Add New Product</button>
+            </div>
         </div>
 
         <div class="admin-search">
@@ -162,7 +89,7 @@
         </div>
     </section>
 
-    <!-- Add/Edit Modal -->
+    <!-- Product Modal -->
     <div class="modal-overlay" id="product-modal">
         <div class="modal-box">
             <h3 id="modal-title">Add New Product</h3>
@@ -173,19 +100,18 @@
             </div>
             <div class="form-group">
                 <label>Category</label>
-                <select id="prod-category">
-                    <option value="Beauty & Hair">Beauty & Hair</option>
-                    <option value="Home & Kitchen">Home & Kitchen</option>
-                    <option value="Electronics">Electronics</option>
-                </select>
+                <select id="prod-category"></select>
             </div>
             <div class="form-group">
                 <label>Price (₦)</label>
                 <input type="number" id="prod-price" required>
             </div>
             <div class="form-group">
-                <label>Image Path</label>
-                <input type="text" id="prod-image" required placeholder="images/filename.jpeg">
+                <label>Product Image</label>
+                <input type="file" id="prod-image-file" accept="image/*" onchange="previewImage()">
+                <input type="hidden" id="prod-image" required>
+                <div class="image-preview" id="image-preview"></div>
+                <p class="upload-status" id="upload-status"></p>
             </div>
             <div class="form-group">
                 <label>Description</label>
@@ -198,8 +124,31 @@
         </div>
     </div>
 
+    <!-- Category Modal -->
+    <div class="modal-overlay" id="category-modal">
+        <div class="modal-box">
+            <h3>Manage Categories</h3>
+            <ul class="cat-list" id="cat-list"></ul>
+            <div class="add-cat-row">
+                <input type="text" id="new-category" placeholder="New category name">
+                <button onclick="addCategory()">Add</button>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeCategoryModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let allProducts = [];
+        let categories = [];
+
+        async function loadCategories() {
+            const response = await fetch('/api/categories');
+            categories = await response.json();
+            const select = document.getElementById('prod-category');
+            select.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
 
         async function loadAdminProducts() {
             const response = await fetch('/api/products');
@@ -232,14 +181,36 @@
             displayProducts(filtered);
         }
 
+        function previewImage() {
+            const file = document.getElementById('prod-image-file').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('image-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            const response = await fetch('/api/upload', { method: 'POST', body: formData });
+            const data = await response.json();
+            return data.path;
+        }
+
         function openAddModal() {
             document.getElementById('modal-title').textContent = 'Add New Product';
             document.getElementById('product-id').value = '';
             document.getElementById('prod-name').value = '';
-            document.getElementById('prod-category').value = 'Beauty & Hair';
+            document.getElementById('prod-category').value = categories[0] || '';
             document.getElementById('prod-price').value = '';
             document.getElementById('prod-image').value = '';
+            document.getElementById('prod-image-file').value = '';
             document.getElementById('prod-description').value = '';
+            document.getElementById('image-preview').innerHTML = '';
+            document.getElementById('upload-status').textContent = '';
             document.getElementById('product-modal').classList.add('active');
         }
 
@@ -253,6 +224,8 @@
             document.getElementById('prod-price').value = product.price;
             document.getElementById('prod-image').value = product.image;
             document.getElementById('prod-description').value = product.description;
+            document.getElementById('image-preview').innerHTML = `<img src="${product.image}" alt="Current image">`;
+            document.getElementById('upload-status').textContent = 'Upload a new image to replace the current one';
             document.getElementById('product-modal').classList.add('active');
         }
 
@@ -262,11 +235,21 @@
 
         async function saveProduct() {
             const id = document.getElementById('product-id').value;
+            let imagePath = document.getElementById('prod-image').value;
+            const imageFile = document.getElementById('prod-image-file').files[0];
+
+            if (imageFile) {
+                document.getElementById('upload-status').textContent = 'Uploading image...';
+                imagePath = await uploadImage(imageFile);
+                document.getElementById('upload-status').textContent = 'Image uploaded successfully!';
+                document.getElementById('prod-image').value = imagePath;
+            }
+
             const product = {
                 name: document.getElementById('prod-name').value,
                 category: document.getElementById('prod-category').value,
                 price: parseInt(document.getElementById('prod-price').value),
-                image: document.getElementById('prod-image').value,
+                image: imagePath,
                 description: document.getElementById('prod-description').value
             };
 
@@ -299,7 +282,54 @@
             loadAdminProducts();
         }
 
-        document.addEventListener('DOMContentLoaded', loadAdminProducts);
+        // Category Management
+        async function openCategoryModal() {
+            document.getElementById('category-modal').classList.add('active');
+            await loadCategoryList();
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('category-modal').classList.remove('active');
+            loadCategories();
+        }
+
+        async function loadCategoryList() {
+            const response = await fetch('/api/categories');
+            const cats = await response.json();
+            const list = document.getElementById('cat-list');
+            list.innerHTML = cats.map(c => `
+                <li>
+                    <span>${c}</span>
+                    <button onclick="deleteCategory('${c}')">Delete</button>
+                </li>
+            `).join('');
+        }
+
+        async function addCategory() {
+            const input = document.getElementById('new-category');
+            const name = input.value.trim();
+            if (!name) return;
+            await fetch('/api/categories', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            });
+            input.value = '';
+            loadCategoryList();
+            loadCategories();
+        }
+
+        async function deleteCategory(name) {
+            if (!confirm(`Delete category "${name}"? This will not delete products in this category.`)) return;
+            await fetch(`/api/categories/${encodeURIComponent(name)}`, { method: 'DELETE' });
+            loadCategoryList();
+            loadCategories();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+            loadAdminProducts();
+        });
     </script>
 
 </body>

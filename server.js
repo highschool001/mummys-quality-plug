@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,7 +10,19 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Load products
+// Multer setup for image uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'images'));
+    },
+    filename: function (req, file, cb) {
+        const uniqueName = Date.now() + '-' + file.originalname.replace(/\s+/g, '-');
+        cb(null, uniqueName);
+    }
+});
+const upload = multer({ storage: storage });
+
+// Load data
 function getProducts() {
     const data = fs.readFileSync(path.join(__dirname, 'products.json'), 'utf-8');
     return JSON.parse(data);
@@ -18,6 +31,49 @@ function getProducts() {
 function saveProducts(products) {
     fs.writeFileSync(path.join(__dirname, 'products.json'), JSON.stringify(products, null, 2));
 }
+
+function getCategories() {
+    const data = fs.readFileSync(path.join(__dirname, 'categories.json'), 'utf-8');
+    return JSON.parse(data);
+}
+
+function saveCategories(categories) {
+    fs.writeFileSync(path.join(__dirname, 'categories.json'), JSON.stringify(categories, null, 2));
+}
+
+// API: Get all categories
+app.get('/api/categories', (req, res) => {
+    const categories = getCategories();
+    res.json(categories);
+});
+
+// API: Add category
+app.post('/api/categories', (req, res) => {
+    const categories = getCategories();
+    const newCategory = req.body.name;
+    if (!categories.includes(newCategory)) {
+        categories.push(newCategory);
+        saveCategories(categories);
+    }
+    res.json(categories);
+});
+
+// API: Delete category
+app.delete('/api/categories/:name', (req, res) => {
+    let categories = getCategories();
+    categories = categories.filter(c => c !== req.params.name);
+    saveCategories(categories);
+    res.json({ success: true });
+});
+
+// API: Upload image
+app.post('/api/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const imagePath = 'images/' + req.file.filename;
+    res.json({ path: imagePath });
+});
 
 // API: Get all products
 app.get('/api/products', (req, res) => {

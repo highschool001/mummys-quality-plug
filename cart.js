@@ -215,3 +215,10 @@ document.addEventListener('DOMContentLoaded', function () {
         loadProducts(searchQuery);
     }
 });
+
+function toggleMenu() {
+    var nav = document.querySelector('.nav-links');
+    var hamburger = document.querySelector('.hamburger');
+    nav.classList.toggle('active');
+    hamburger.classList.toggle('active');
+}

@@ -145,6 +145,73 @@ app.delete('/api/products/:id', (req, res) => {
     res.json({ success: true });
 });
 
+// Load orders
+function getOrders() {
+    const data = fs.readFileSync(path.join(__dirname, 'orders.json'), 'utf-8');
+    return JSON.parse(data);
+}
+
+function saveOrders(orders) {
+    fs.writeFileSync(path.join(__dirname, 'orders.json'), JSON.stringify(orders, null, 2));
+}
+
+// API: Get all orders
+app.get('/api/orders', (req, res) => {
+    const orders = getOrders();
+    const { status } = req.query;
+    let filtered = orders;
+
+    if (status && status !== 'All') {
+        filtered = filtered.filter(o => o.status === status);
+    }
+
+    res.json(filtered);
+});
+
+// API: Place order
+app.post('/api/orders', (req, res) => {
+    const orders = getOrders();
+    const newOrder = {
+        id: 'MQP-' + Date.now().toString().slice(-8),
+        date: new Date().toISOString(),
+        customer: req.body.customer,
+        items: req.body.items,
+        subtotal: req.body.subtotal,
+        status: 'Order Confirmed',
+        statusHistory: [
+            { status: 'Order Confirmed', date: new Date().toISOString() }
+        ]
+    };
+    orders.push(newOrder);
+    saveOrders(orders);
+    res.json(newOrder);
+});
+
+// API: Update order status
+app.put('/api/orders/:id', (req, res) => {
+    const orders = getOrders();
+    const index = orders.findIndex(o => o.id === req.params.id);
+    if (index !== -1) {
+        orders[index].status = req.body.status;
+        orders[index].statusHistory.push({
+            status: req.body.status,
+            date: new Date().toISOString()
+        });
+        saveOrders(orders);
+        res.json(orders[index]);
+    } else {
+        res.status(404).json({ error: 'Order not found' });
+    }
+});
+
+// API: Delete order
+app.delete('/api/orders/:id', (req, res) => {
+    let orders = getOrders();
+    orders = orders.filter(o => o.id !== req.params.id);
+    saveOrders(orders);
+    res.json({ success: true });
+});
+
 // Serve HTML files
 app.get('*', (req, res) => {
     const filePath = path.join(__dirname, req.path);

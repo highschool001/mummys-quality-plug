@@ -197,32 +197,46 @@
         }
 
         // Place order
-        function placeOrder() {
-            const fullname = document.getElementById('fullname').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const state = document.getElementById('state').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const address = document.getElementById('address').value.trim();
+    async function placeOrder() {
+    const fullname = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const notes = document.getElementById('notes').value.trim();
 
-            if (!fullname || !phone || !state || !city || !address) {
-                alert('Please fill in all required fields.');
-                return;
-            }
+    if (!fullname || !phone || !state || !city || !address) {
+        alert('Please fill in all required fields.');
+        return;
+    }
 
-            const orderId = 'MQP-' + Date.now().toString().slice(-8);
-            document.getElementById('order-id-display').textContent = 'Order ID: ' + orderId;
-            document.getElementById('order-success').style.display = 'flex';
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
-            // Clear cart
-            localStorage.removeItem('mummysCart');
-            cart = [];
-            updateCartCount();
-        }
+    const orderData = {
+        customer: { fullname, phone, email, state, city, address, notes },
+        items: cart,
+        subtotal: subtotal
+    };
 
-        document.addEventListener('DOMContentLoaded', function () {
-            loadCart();
-            displayCheckoutItems();
+    try {
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
         });
+        const order = await response.json();
+
+        document.getElementById('order-id-display').textContent = 'Order ID: ' + order.id;
+        document.getElementById('order-success').style.display = 'flex';
+
+        localStorage.removeItem('mummysCart');
+        cart = [];
+        updateCartCount();
+    } catch (error) {
+        alert('Error placing order. Please try again.');
+    }
+}
     </script>
 </body>
 </html>

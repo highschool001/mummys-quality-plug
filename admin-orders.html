@@ -223,6 +223,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => loadOrders('All'));
+
+        function toggleMenu() {
+    var nav = document.querySelector('.nav-links');
+    var hamburger = document.querySelector('.hamburger');
+    nav.classList.toggle('active');
+    hamburger.classList.toggle('active');
+}
     </script>
 
 </body>

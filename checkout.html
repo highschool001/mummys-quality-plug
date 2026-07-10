@@ -67,15 +67,14 @@
 
     <!-- CHECKOUT CONTENT -->
     <section class="checkout-page">
-        <div id="empty-checkout" class="empty-cart">
+        <div id="empty-checkout" class="empty-cart" style="display: none;">
             <span class="empty-icon">🛒</span>
             <h3>Your cart is empty</h3>
             <p>Add items to your cart before checking out.</p>
             <a href="shop.html" class="btn btn-primary">Go to Shop</a>
         </div>
 
-        <div id="checkout-content" class="checkout-grid" style="display: none;">
-            <!-- Customer Details Form -->
+        <div id="checkout-content" class="checkout-grid">
             <div class="checkout-form">
                 <h3>Delivery Details</h3>
                 <form id="order-form">
@@ -110,7 +109,6 @@
                 </form>
             </div>
 
-            <!-- Order Summary -->
             <div class="checkout-summary">
                 <h3>Order Summary</h3>
                 <div id="checkout-items"></div>
@@ -182,14 +180,10 @@
     </footer>
 
     <script>
-        // Load cart directly from localStorage - no dependency on cart.js
-        let cart = [];
+        let cart = JSON.parse(localStorage.getItem('mummysCart') || '[]');
 
-        function loadCartFromStorage() {
-            const savedCart = localStorage.getItem('mummysCart');
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
-            }
+        function saveCart() {
+            localStorage.setItem('mummysCart', JSON.stringify(cart));
         }
 
         function getTotalPrice() {
@@ -201,18 +195,13 @@
         }
 
         function updateCartCount() {
-            const cartLink = document.getElementById('cart-link');
-            const mobileBadge = document.getElementById('mobile-cart-badge');
-            const totalItems = getTotalItems();
+            var cartLink = document.getElementById('cart-link');
+            var mobileBadge = document.getElementById('mobile-cart-badge');
+            var totalItems = getTotalItems();
 
             if (cartLink) {
-                if (totalItems > 0) {
-                    cartLink.innerHTML = `🛒 Cart (${totalItems})`;
-                } else {
-                    cartLink.innerHTML = '🛒 Cart';
-                }
+                cartLink.innerHTML = totalItems > 0 ? '🛒 Cart (' + totalItems + ')' : '🛒 Cart';
             }
-
             if (mobileBadge) {
                 if (totalItems > 0) {
                     mobileBadge.style.display = 'flex';
@@ -224,56 +213,57 @@
         }
 
         function displayCheckoutItems() {
-            const checkoutContainer = document.getElementById('checkout-items');
-            const emptyCheckout = document.getElementById('empty-checkout');
-            const checkoutContent = document.getElementById('checkout-content');
-            const checkoutSubtotal = document.getElementById('checkout-subtotal');
-            const checkoutTotal = document.getElementById('checkout-total');
+            var container = document.getElementById('checkout-items');
+            var emptyDiv = document.getElementById('empty-checkout');
+            var contentDiv = document.getElementById('checkout-content');
+            var subtotalEl = document.getElementById('checkout-subtotal');
+            var totalEl = document.getElementById('checkout-total');
 
             if (cart.length === 0) {
-                emptyCheckout.style.display = 'block';
-                checkoutContent.style.display = 'none';
+                emptyDiv.style.display = 'block';
+                contentDiv.style.display = 'none';
                 return;
             }
 
-            emptyCheckout.style.display = 'none';
-            checkoutContent.style.display = 'grid';
+            emptyDiv.style.display = 'none';
+            contentDiv.style.display = 'grid';
 
-            checkoutContainer.innerHTML = cart.map(item => `
-                <div class="checkout-item">
-                    <div class="checkout-item-img">
-                        <img src="${item.image}" alt="${item.name}" onerror="this.src='images/placeholder.jpeg'">
-                    </div>
-                    <div class="checkout-item-details">
-                        <p class="checkout-item-name">${item.name}</p>
-                        <p class="checkout-item-qty">Qty: ${item.quantity}</p>
-                    </div>
-                    <p class="checkout-item-price">₦${(item.price * item.quantity).toLocaleString()}</p>
-                </div>
-            `).join('');
+            container.innerHTML = '';
+            cart.forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'checkout-item';
+                div.innerHTML =
+                    '<div class="checkout-item-img"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.src=\'images/placeholder.jpeg\'"></div>' +
+                    '<div class="checkout-item-details">' +
+                    '<p class="checkout-item-name">' + item.name + '</p>' +
+                    '<p class="checkout-item-qty">Qty: ' + item.quantity + '</p>' +
+                    '</div>' +
+                    '<p class="checkout-item-price">₦' + (item.price * item.quantity).toLocaleString() + '</p>';
+                container.appendChild(div);
+            });
 
-            const subtotal = getTotalPrice();
-            checkoutSubtotal.textContent = `₦${subtotal.toLocaleString()}`;
-            checkoutTotal.textContent = `₦${subtotal.toLocaleString()}`;
+            var subtotal = getTotalPrice();
+            subtotalEl.textContent = '₦' + subtotal.toLocaleString();
+            totalEl.textContent = '₦' + subtotal.toLocaleString();
         }
 
         function payWithPaystack() {
-            const fullname = document.getElementById('fullname').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const state = document.getElementById('state').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const notes = document.getElementById('notes').value.trim();
+            var fullname = document.getElementById('fullname').value.trim();
+            var phone = document.getElementById('phone').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var state = document.getElementById('state').value.trim();
+            var city = document.getElementById('city').value.trim();
+            var address = document.getElementById('address').value.trim();
+            var notes = document.getElementById('notes').value.trim();
 
             if (!fullname || !phone || !email || !state || !city || !address) {
                 alert('Please fill in all required fields.');
                 return;
             }
 
-            const subtotal = getTotalPrice();
+            var subtotal = getTotalPrice();
 
-            const handler = PaystackPop.setup({
+            var handler = PaystackPop.setup({
                 key: 'pk_test_7a264c398637aa7fcb461765b75c5d0d7a2135bd',
                 email: email,
                 amount: subtotal * 100,
@@ -283,7 +273,7 @@
                     custom_fields: [
                         { display_name: 'Full Name', variable_name: 'fullname', value: fullname },
                         { display_name: 'Phone', variable_name: 'phone', value: phone },
-                        { display_name: 'Address', variable_name: 'address', value: `${address}, ${city}, ${state}` }
+                        { display_name: 'Address', variable_name: 'address', value: address + ', ' + city + ', ' + state }
                     ]
                 },
                 onClose: function () {},
@@ -296,64 +286,62 @@
         }
 
         async function saveOrder(fullname, phone, email, state, city, address, notes, subtotal, paymentRef) {
-            const orderData = {
-                customer: { fullname, phone, email, state, city, address, notes },
+            var orderData = {
+                customer: { fullname: fullname, phone: phone, email: email, state: state, city: city, address: address, notes: notes },
                 items: cart,
                 subtotal: subtotal,
                 paymentRef: paymentRef
             };
 
             try {
-                const response = await fetch('/api/orders', {
+                var response = await fetch('/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderData)
                 });
-                const order = await response.json();
+                var order = await response.json();
 
                 document.getElementById('order-id-display').textContent = 'Order ID: ' + order.id;
                 document.getElementById('order-success').style.display = 'flex';
 
-                let itemsList = cart.map(item => `• ${item.name} x${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`).join('%0A');
-                let orderSummary = `*💰 New Paid Order - ${order.id}*%0A%0A`;
-                orderSummary += `*Customer:* ${fullname}%0A`;
-                orderSummary += `*Phone:* ${phone}%0A`;
-                orderSummary += `*Email:* ${email}%0A`;
-                orderSummary += `*Location:* ${address}, ${city}, ${state}%0A`;
-                orderSummary += `*Notes:* ${notes || 'None'}%0A%0A`;
-                orderSummary += `*Items:*%0A${itemsList}%0A%0A`;
-                orderSummary += `*Total Paid:* ₦${subtotal.toLocaleString()}%0A`;
-                orderSummary += `*Payment Ref:* ${paymentRef}%0A%0A`;
-                orderSummary += `View orders: ${window.location.origin}/admin-orders.html`;
+                var itemsList = '';
+                cart.forEach(function(item) {
+                    itemsList += '• ' + item.name + ' x' + item.quantity + ' — ₦' + (item.price * item.quantity).toLocaleString() + '%0A';
+                });
 
-                const businessPhone = '2347038570649';
-                window.open(`https://wa.me/${businessPhone}?text=${orderSummary}`, '_blank');
+                var orderSummary = '*💰 New Paid Order - ' + order.id + '*%0A%0A';
+                orderSummary += '*Customer:* ' + fullname + '%0A';
+                orderSummary += '*Phone:* ' + phone + '%0A';
+                orderSummary += '*Email:* ' + email + '%0A';
+                orderSummary += '*Location:* ' + address + ', ' + city + ', ' + state + '%0A';
+                orderSummary += '*Notes:* ' + (notes || 'None') + '%0A%0A';
+                orderSummary += '*Items:*%0A' + itemsList + '%0A';
+                orderSummary += '*Total Paid:* ₦' + subtotal.toLocaleString() + '%0A';
+                orderSummary += '*Payment Ref:* ' + paymentRef + '%0A%0A';
+                orderSummary += 'View orders: ' + window.location.origin + '/admin-orders.html';
 
-                let customerMsg = `Hello ${fullname}!%0A%0A`;
-                customerMsg += `Thank you for your order at Mummy's Quality Plug.%0A%0A`;
-                customerMsg += `*Order ID:* ${order.id}%0A`;
-                customerMsg += `*Amount Paid:* ₦${subtotal.toLocaleString()}%0A`;
-                customerMsg += `*Payment Ref:* ${paymentRef}%0A%0A`;
-                customerMsg += `We will contact you shortly with delivery updates.`;
+                window.open('https://wa.me/2347038570649?text=' + orderSummary, '_blank');
 
-                const customerPhone = phone.replace(/^0/, '234').replace(/\s+/g, '');
-                window.open(`https://wa.me/${customerPhone}?text=${customerMsg}`, '_blank');
+                var customerMsg = 'Hello ' + fullname + '!%0A%0A';
+                customerMsg += 'Thank you for your order at Mummy\'s Quality Plug.%0A%0A';
+                customerMsg += '*Order ID:* ' + order.id + '%0A';
+                customerMsg += '*Amount Paid:* ₦' + subtotal.toLocaleString() + '%0A';
+                customerMsg += '*Payment Ref:* ' + paymentRef + '%0A%0A';
+                customerMsg += 'We will contact you shortly with delivery updates.';
+
+                var customerPhone = phone.replace(/^0/, '234').replace(/\s+/g, '');
+                window.open('https://wa.me/' + customerPhone + '?text=' + customerMsg, '_blank');
 
                 localStorage.removeItem('mummysCart');
                 cart = [];
                 updateCartCount();
             } catch (error) {
-                alert('Error saving order. Please contact us on WhatsApp. Your payment reference is: ' + paymentRef);
+                alert('Error saving order. Please contact us on WhatsApp. Payment reference: ' + paymentRef);
             }
         }
 
-            // Initialize - wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCartFromStorage();
-            updateCartCount();
-            displayCheckoutItems();
-        });
-    </script>
+        updateCartCount();
+        displayCheckoutItems();
     </script>
 </body>
 </html>

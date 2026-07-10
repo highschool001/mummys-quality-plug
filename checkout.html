@@ -230,6 +230,34 @@
         document.getElementById('order-id-display').textContent = 'Order ID: ' + order.id;
         document.getElementById('order-success').style.display = 'flex';
 
+        // Build order summary for WhatsApp
+        let itemsList = cart.map(item => `• ${item.name} x${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`).join('%0A');
+        let orderSummary = `*New Order - ${order.id}*%0A%0A`;
+        orderSummary += `*Customer:* ${fullname}%0A`;
+        orderSummary += `*Phone:* ${phone}%0A`;
+        orderSummary += `*Location:* ${address}, ${city}, ${state}%0A`;
+        orderSummary += `*Notes:* ${notes || 'None'}%0A%0A`;
+        orderSummary += `*Items:*%0A${itemsList}%0A%0A`;
+        orderSummary += `*Subtotal:* ₦${subtotal.toLocaleString()}%0A%0A`;
+        orderSummary += `View all orders: ${window.location.origin}/admin-orders.html`;
+
+        // Send WhatsApp notification to business owner
+        const businessPhone = '2347078803687'; // Update this to her real number
+        const businessWA = `https://wa.me/${businessPhone}?text=${orderSummary}`;
+        window.open(businessWA, '_blank');
+
+        // Send confirmation to customer
+        let customerMsg = `Hello ${fullname}!%0A%0A`;
+        customerMsg += `Thank you for your order at Mummy's Quality Plug.%0A%0A`;
+        customerMsg += `*Order ID:* ${order.id}%0A`;
+        customerMsg += `*Total:* ₦${subtotal.toLocaleString()} + delivery%0A%0A`;
+        customerMsg += `We will contact you shortly to confirm your order and delivery fee.%0A%0A`;
+        customerMsg += `Track your order by reaching out on WhatsApp anytime.`;
+
+        const customerPhone = phone.replace(/^0/, '234').replace(/\s+/g, '');
+        const customerWA = `https://wa.me/${customerPhone}?text=${customerMsg}`;
+        window.open(customerWA, '_blank');
+
         localStorage.removeItem('mummysCart');
         cart = [];
         updateCartCount();

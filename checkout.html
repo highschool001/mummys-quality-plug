@@ -180,6 +180,7 @@
     </footer>
 
     <script>
+        alert('Script is running. Cart items: ' + JSON.parse(localStorage.getItem('mummysCart') || '[]').length);
         let cart = JSON.parse(localStorage.getItem('mummysCart') || '[]');
 
         function saveCart() {

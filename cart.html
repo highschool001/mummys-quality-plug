@@ -4,42 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - Mummy's Quality Plug</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📦</text></svg>">
-    <meta name="description" content="Mummy's Quality Plug — Quality goods from China delivered to your doorstep in Nigeria. Shop beauty, kitchen essentials, electronics, and more.">
-<meta name="keywords" content="import goods Nigeria, Chinese products Nigeria, online store Nigeria, beauty products, kitchen appliances, solar lights, Mummy's Quality Plug">
-<meta property="og:title" content="Mummy's Quality Plug — Quality Imports, Delivered to Your Door">
-<meta property="og:description" content="Shop beauty, kitchen essentials, electronics, and more — sourced with care, delivered with love.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://mummys-quality-plug.onrender.com">
-<meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- MOBILE BOTTOM NAV -->
-<div class="mobile-bottom-nav">
-    <div class="nav-items">
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </a>
-        <a href="shop.html" class="nav-item">
-            <span class="nav-icon">🛍️</span>
-            <span>Shop</span>
-        </a>
-        <a href="cart.html" class="nav-item">
-            <span class="nav-icon mobile-cart-count">
-                🛒
-                <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
-            </span>
-            <span>Cart</span>
-        </a>
-        <a href="https://wa.me/2348031234567" class="nav-item" target="_blank">
-            <span class="nav-icon">💬</span>
-            <span>Chat</span>
-        </a>
+    <div class="mobile-bottom-nav">
+        <div class="nav-items">
+            <a href="index.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="shop.html" class="nav-item">
+                <span class="nav-icon">🛍️</span>
+                <span>Shop</span>
+            </a>
+            <a href="cart.html" class="nav-item active">
+                <span class="nav-icon mobile-cart-count">
+                    🛒
+                    <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+                </span>
+                <span>Cart</span>
+            </a>
+            <a href="https://wa.me/2347038570649" class="nav-item" target="_blank">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+        </div>
     </div>
-</div>
 
     <!-- HEADER -->
     <header>
@@ -63,10 +55,6 @@
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="cart.html" id="cart-link" class="active">🛒 Cart</a></li>
             </ul>
-            <div class="search-bar">
-    <input type="text" id="search-input" placeholder="Search products..." onkeyup="handleSearch(event)">
-    <span class="search-icon">🔍</span>
-</div>
         </nav>
     </header>
 
@@ -78,7 +66,7 @@
 
     <!-- CART CONTENT -->
     <section class="cart-page">
-        <div id="empty-cart" class="empty-cart">
+        <div id="empty-cart" class="empty-cart" style="display: none;">
             <span class="empty-icon">🛒</span>
             <h3>Your cart is empty</h3>
             <p>Browse our shop and add items to get started.</p>
@@ -125,7 +113,7 @@
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>
-                <p>📞 WhatsApp: 0803 123 4567</p>
+                <p>📞 WhatsApp: 07038570649</p>
                 <p>📧 mummysqualityplug@gmail.com</p>
             </div>
         </div>
@@ -134,6 +122,105 @@
         </div>
     </footer>
 
-    <script src="cart.js"></script>
+    <script>
+        var cart = JSON.parse(localStorage.getItem('mummysCart') || '[]');
+
+        function saveCart() {
+            localStorage.setItem('mummysCart', JSON.stringify(cart));
+        }
+
+        function getTotalPrice() {
+            var total = 0;
+            for (var i = 0; i < cart.length; i++) {
+                total += cart[i].price * cart[i].quantity;
+            }
+            return total;
+        }
+
+        function getTotalItems() {
+            var total = 0;
+            for (var i = 0; i < cart.length; i++) {
+                total += cart[i].quantity;
+            }
+            return total;
+        }
+
+        function updateCartCount() {
+            var cartLink = document.getElementById('cart-link');
+            var mobileBadge = document.getElementById('mobile-cart-badge');
+            var totalItems = getTotalItems();
+
+            if (cartLink) {
+                cartLink.innerHTML = totalItems > 0 ? '🛒 Cart (' + totalItems + ')' : '🛒 Cart';
+            }
+            if (mobileBadge) {
+                if (totalItems > 0) {
+                    mobileBadge.style.display = 'flex';
+                    mobileBadge.textContent = totalItems;
+                } else {
+                    mobileBadge.style.display = 'none';
+                }
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            displayCartItems();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            saveCart();
+            updateCartCount();
+            displayCartItems();
+        }
+
+        function displayCartItems() {
+            var container = document.getElementById('cart-items');
+            var emptyDiv = document.getElementById('empty-cart');
+            var contentDiv = document.getElementById('cart-content');
+            var cartTotal = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                emptyDiv.style.display = 'block';
+                contentDiv.style.display = 'none';
+                return;
+            }
+
+            emptyDiv.style.display = 'none';
+            contentDiv.style.display = 'block';
+
+            container.innerHTML = '';
+            for (var i = 0; i < cart.length; i++) {
+                var item = cart[i];
+                var div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML =
+                    '<div class="cart-item-img"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.src=\'images/placeholder.jpeg\'"></div>' +
+                    '<div class="cart-item-details">' +
+                    '<h4>' + item.name + '</h4>' +
+                    '<p class="cart-item-price">₦' + item.price.toLocaleString() + '</p>' +
+                    '</div>' +
+                    '<div class="cart-item-quantity">' +
+                    '<button class="qty-btn" onclick="updateQuantity(' + i + ', -1)">−</button>' +
+                    '<span>' + item.quantity + '</span>' +
+                    '<button class="qty-btn" onclick="updateQuantity(' + i + ', 1)">+</button>' +
+                    '</div>' +
+                    '<div class="cart-item-subtotal">₦' + (item.price * item.quantity).toLocaleString() + '</div>' +
+                    '<button class="remove-btn" onclick="removeFromCart(' + i + ')">✕</button>';
+                container.appendChild(div);
+            }
+
+            cartTotal.textContent = '₦' + getTotalPrice().toLocaleString();
+        }
+
+        updateCartCount();
+        displayCartItems();
+    </script>
 </body>
 </html>

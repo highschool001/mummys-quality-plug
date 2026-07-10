@@ -164,6 +164,7 @@
                     <li><a href="how-it-works.html">How It Works</a></li>
                     <li><a href="delivery-info.html">Delivery Info</a></li>
                     <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="track-order.html">Track Order</a></li>
                 </ul>
             </div>
             <div class="footer-links">
@@ -341,6 +342,8 @@
 
                 localStorage.removeItem('mummysCart');
                 cart = [];
+                // Force other pages to reload cart
+                window.dispatchEvent(new Event('cartCleared'));
                 updateCartCount();
             } catch (error) {
                 alert('Error saving order. Please contact us on WhatsApp. Payment reference: ' + paymentRef);

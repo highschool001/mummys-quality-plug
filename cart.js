@@ -222,3 +222,9 @@ function toggleMenu() {
     nav.classList.toggle('active');
     hamburger.classList.toggle('active');
 }
+
+window.addEventListener('cartCleared', function() {
+    cart = [];
+    updateCartCount();
+    if (typeof displayCartItems === 'function') displayCartItems();
+});

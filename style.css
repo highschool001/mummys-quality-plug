@@ -1128,16 +1128,18 @@ footer {
 }
 
 /* ===== HAMBURGER MENU ===== */
+nav {
+    position: relative;
+    background: #2c3e50;
+    padding: 0 20px;
+}
+
 .hamburger {
     display: none;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 10px;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    padding: 14px 10px;
     z-index: 101;
 }
 
@@ -1145,7 +1147,7 @@ footer {
     display: block;
     width: 25px;
     height: 3px;
-    background: #2c3e50;
+    background: #ecf0f1;
     margin: 5px 0;
     border-radius: 3px;
     transition: all 0.3s;
@@ -1163,10 +1165,6 @@ footer {
     transform: rotate(-45deg) translate(5px, -6px);
 }
 
-nav {
-    position: relative;
-}
-
 @media (max-width: 900px) {
     .hamburger {
         display: block;
@@ -1176,8 +1174,7 @@ nav {
         display: none;
         flex-direction: column;
         width: 100%;
-        background: #2c3e50;
-        padding: 10px 0;
+        padding: 0;
     }
 
     .nav-links.active {

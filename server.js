@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB connection
-const MONGO_URI = 'mongodb+srv://Highschool001:Tobi2004.@cluster0.ju51bfs.mongodb.net/mummys-quality-plug?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mummys-quality-plug';
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB connected'))

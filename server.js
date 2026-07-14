@@ -5,6 +5,9 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
 const app = express();
@@ -54,6 +57,23 @@ const Product = mongoose.model('Product', productSchema);
 const Category = mongoose.model('Category', categorySchema);
 const Order = mongoose.model('Order', orderSchema);
 
+// Security Middleware
+app.use(helmet());
+app.use(mongoSanitize());
+
+// Rate limiter for login endpoint
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // 10 attempts per window
+    message: { error: 'Too many login attempts. Try again in 15 minutes.' }
+});
+
+// General rate limiter for all API routes
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+});
+
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
@@ -83,8 +103,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// Apply rate limiting to all /api routes
+app.use('/api', apiLimiter);
+
 // API: Login
-app.post('/api/login', (req, res) => {
+app.post('/api/login', loginLimiter, (req, res) => {
     const { password } = req.body;
     if (password === process.env.ADMIN_PASSWORD) {
         const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });

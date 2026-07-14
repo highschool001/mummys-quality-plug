@@ -32,10 +32,26 @@
     </div>
 </div>
 <script>
-function login(){
-    var pw=document.getElementById('admin-password').value;
-    if(pw==='mummy2025'){sessionStorage.setItem('adminLoggedIn','true');window.location.href='admin.html';}
-    else{document.getElementById('login-error').classList.add('show');document.getElementById('admin-password').value='';}
+async function login(){
+    var pw = document.getElementById('admin-password').value;
+    try {
+        var res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pw })
+        });
+        if (res.ok) {
+            var data = await res.json();
+            sessionStorage.setItem('adminToken', data.token);
+            window.location.href = 'admin.html';
+        } else {
+            document.getElementById('login-error').classList.add('show');
+            document.getElementById('admin-password').value = '';
+        }
+    } catch (err) {
+        document.getElementById('login-error').classList.add('show');
+        document.getElementById('admin-password').value = '';
+    }
 }
 </script>
 </body>

@@ -1,3 +1,4 @@
+cat > ~/mummys-quality-plug/admin.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +51,7 @@
     </style>
 </head>
 <body>
-<script>if(sessionStorage.getItem('adminLoggedIn')!=='true')window.location.href='admin-login.html';</script>
+<script>if(!sessionStorage.getItem('adminToken'))window.location.href='admin-login.html';</script>
 <header>
     <div class="header-top"><div class="logo"><span class="logo-icon">📦</span><div class="logo-text"><h1>Mummy's Quality Plug</h1><p>Admin Panel</p></div></div></div>
 </header>
@@ -70,29 +71,38 @@
 <div class="modal-overlay" id="category-modal"><div class="modal-box"><h3>Manage Categories</h3><ul class="cat-list" id="cat-list"></ul><div class="add-cat-row"><input type="text" id="new-category" placeholder="New category name"><button onclick="addCategory()">Add</button></div><div class="modal-btns"><button class="btn-cancel" onclick="closeCategoryModal()">Close</button></div></div></div>
 <script>
 function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active');}
-function logout(){sessionStorage.removeItem('adminLoggedIn');window.location.href='admin-login.html';}
+function logout(){sessionStorage.removeItem('adminToken');window.location.href='admin-login.html';}
 var allProducts=[],categories=[];
-async function loadCategories(){var r=await fetch('/api/categories');categories=await r.json();var s=document.getElementById('prod-category');s.innerHTML=categories.map(function(c){return'<option value="'+c+'">'+c+'</option>';}).join('');}
-async function loadAdminProducts(){var r=await fetch('/api/products');allProducts=await r.json();displayProducts(allProducts);}
+
+function authFetch(url, opts = {}) {
+    const token = sessionStorage.getItem('adminToken');
+    if (!opts.headers) opts.headers = {};
+    if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+    return fetch(url, opts);
+}
+
+async function loadCategories(){var r=await authFetch('/api/categories');categories=await r.json();var s=document.getElementById('prod-category');s.innerHTML=categories.map(function(c){return'<option value="'+c+'">'+c+'</option>';}).join('');}
+async function loadAdminProducts(){var r=await authFetch('/api/products');allProducts=await r.json();displayProducts(allProducts);}
 function displayProducts(prods){var t=document.getElementById('admin-product-list');t.innerHTML=prods.map(function(p){return'<tr><td><img src="'+p.image+'" alt="'+p.name+'" onerror="this.src=\'images/placeholder.jpeg\'"></td><td>'+p.name+'</td><td>'+p.category+'</td><td>₦'+p.price.toLocaleString()+'</td><td><button class="btn-edit" onclick="openEditModal('+p.id+')">Edit</button><button class="btn-delete" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>';}).join('');}
 function filterAdminProducts(){var q=document.getElementById('admin-search').value.toLowerCase();var f=allProducts.filter(function(p){return p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q);});displayProducts(f);}
 function previewImage(){var f=document.getElementById('prod-image-file').files[0];if(f){var r=new FileReader();r.onload=function(e){document.getElementById('image-preview').innerHTML='<img src="'+e.target.result+'" alt="Preview">';};r.readAsDataURL(f);}}
-async function uploadImage(file){var fd=new FormData();fd.append('image',file);var r=await fetch('/api/upload',{method:'POST',body:fd});var d=await r.json();return d.path;}
+async function uploadImage(file){var fd=new FormData();fd.append('image',file);var r=await authFetch('/api/upload',{method:'POST',body:fd});var d=await r.json();return d.path;}
 function openAddModal(){document.getElementById('modal-title').textContent='Add New Product';document.getElementById('product-id').value='';document.getElementById('prod-name').value='';document.getElementById('prod-category').value=categories[0]||'';document.getElementById('prod-price').value='';document.getElementById('prod-image').value='';document.getElementById('prod-image-file').value='';document.getElementById('prod-description').value='';document.getElementById('image-preview').innerHTML='';document.getElementById('upload-status').textContent='';document.getElementById('product-modal').classList.add('active');}
 function openEditModal(id){var p=allProducts.find(function(x){return x.id===id;});if(!p)return;document.getElementById('modal-title').textContent='Edit Product';document.getElementById('product-id').value=p.id;document.getElementById('prod-name').value=p.name;document.getElementById('prod-category').value=p.category;document.getElementById('prod-price').value=p.price;document.getElementById('prod-image').value=p.image;document.getElementById('prod-description').value=p.description;document.getElementById('image-preview').innerHTML='<img src="'+p.image+'" alt="Current">';document.getElementById('upload-status').textContent='Upload new image to replace current';document.getElementById('product-modal').classList.add('active');}
 function closeModal(){document.getElementById('product-modal').classList.remove('active');}
 async function saveProduct(){var id=document.getElementById('product-id').value;var ip=document.getElementById('prod-image').value;var imf=document.getElementById('prod-image-file').files[0];if(imf){document.getElementById('upload-status').textContent='Uploading...';ip=await uploadImage(imf);document.getElementById('upload-status').textContent='Uploaded!';document.getElementById('prod-image').value=ip;}
 var pr={name:document.getElementById('prod-name').value,category:document.getElementById('prod-category').value,price:parseInt(document.getElementById('prod-price').value),image:ip,description:document.getElementById('prod-description').value};
 if(!pr.name||!pr.price||!pr.image){alert('Please fill all required fields');return;}
-if(id){await fetch('/api/products/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(pr)});}else{await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pr)});}
+if(id){await authFetch('/api/products/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(pr)});}else{await authFetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pr)});}
 closeModal();loadAdminProducts();}
-async function deleteProduct(id){if(!confirm('Delete this product?'))return;await fetch('/api/products/'+id,{method:'DELETE'});loadAdminProducts();}
+async function deleteProduct(id){if(!confirm('Delete this product?'))return;await authFetch('/api/products/'+id,{method:'DELETE'});loadAdminProducts();}
 async function openCategoryModal(){document.getElementById('category-modal').classList.add('active');await loadCategoryList();}
 function closeCategoryModal(){document.getElementById('category-modal').classList.remove('active');loadCategories();}
-async function loadCategoryList(){var r=await fetch('/api/categories');var cats=await r.json();document.getElementById('cat-list').innerHTML=cats.map(function(c){return'<li><span>'+c+'</span><button onclick="deleteCategory(\''+c+'\')">Delete</button></li>';}).join('');}
-async function addCategory(){var inp=document.getElementById('new-category');var n=inp.value.trim();if(!n)return;await fetch('/api/categories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})});inp.value='';loadCategoryList();loadCategories();}
-async function deleteCategory(name){if(!confirm('Delete category "'+name+'"? Products in this category will not be deleted.'))return;await fetch('/api/categories/'+encodeURIComponent(name),{method:'DELETE'});loadCategoryList();loadCategories();}
+async function loadCategoryList(){var r=await authFetch('/api/categories');var cats=await r.json();document.getElementById('cat-list').innerHTML=cats.map(function(c){return'<li><span>'+c+'</span><button onclick="deleteCategory(\''+c+'\')">Delete</button></li>';}).join('');}
+async function addCategory(){var inp=document.getElementById('new-category');var n=inp.value.trim();if(!n)return;await authFetch('/api/categories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})});inp.value='';loadCategoryList();loadCategories();}
+async function deleteCategory(name){if(!confirm('Delete category "'+name+'"? Products in this category will not be deleted.'))return;await authFetch('/api/categories/'+encodeURIComponent(name),{method:'DELETE'});loadCategoryList();loadCategories();}
 document.addEventListener('DOMContentLoaded',function(){loadCategories();loadAdminProducts();});
 </script>
 </body>
 </html>
+ENDOFFILE

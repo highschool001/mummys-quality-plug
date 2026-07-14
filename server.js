@@ -63,8 +63,8 @@ app.use(mongoSanitize());
 
 // Rate limiter for login endpoint
 const loginLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 10, // 10 attempts per window
+    windowMs: 15 * 60 * 1000,
+    max: 10,
     message: { error: 'Too many login attempts. Try again in 15 minutes.' }
 });
 
@@ -106,10 +106,11 @@ const upload = multer({ storage: storage });
 // Apply rate limiting to all /api routes
 app.use('/api', apiLimiter);
 
-// API: Login
-app.post('/api/login', loginLimiter, (req, res) => {
+// API: Login (with bcrypt)
+app.post('/api/login', loginLimiter, async (req, res) => {
     const { password } = req.body;
-    if (password === process.env.ADMIN_PASSWORD) {
+    const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
+    if (valid) {
         const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
         return res.json({ token });
     }

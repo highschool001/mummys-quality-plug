@@ -32,15 +32,23 @@
     </div>
 </div>
 <script>
-// Get CSRF token on page load
-fetch('/api/csrf-token').then(r=>r.json()).then(d=>sessionStorage.setItem('csrfToken',d.csrfToken));
+let csrfToken = '';
+
+// Fetch CSRF token when page loads
+fetch('/api/csrf-token', { credentials: 'same-origin' })
+    .then(r => r.json())
+    .then(d => { csrfToken = d.csrfToken; });
 
 async function login(){
     var pw = document.getElementById('admin-password').value;
     try {
         var res = await fetch('/api/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            credentials: 'same-origin',
             body: JSON.stringify({ password: pw })
         });
         if (res.ok) {

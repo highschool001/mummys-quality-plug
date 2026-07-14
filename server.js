@@ -3,6 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -55,6 +58,19 @@ const Order = mongoose.model('Order', orderSchema);
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
+// Auth middleware
+function authMiddleware(req, res, next) {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
 // Multer setup
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -67,13 +83,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API: Login
+app.post('/api/login', (req, res) => {
+    const { password } = req.body;
+    if (password === process.env.ADMIN_PASSWORD) {
+        const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return res.json({ token });
+    }
+    res.status(401).json({ error: 'Invalid password' });
+});
+
 // API: Categories
 app.get('/api/categories', async (req, res) => {
     const categories = await Category.find();
     res.json(categories.map(c => c.name));
 });
 
-app.post('/api/categories', async (req, res) => {
+app.post('/api/categories', authMiddleware, async (req, res) => {
     const exists = await Category.findOne({ name: req.body.name });
     if (!exists) {
         await new Category({ name: req.body.name }).save();
@@ -82,13 +108,13 @@ app.post('/api/categories', async (req, res) => {
     res.json(categories.map(c => c.name));
 });
 
-app.delete('/api/categories/:name', async (req, res) => {
+app.delete('/api/categories/:name', authMiddleware, async (req, res) => {
     await Category.deleteOne({ name: req.params.name });
     res.json({ success: true });
 });
 
 // API: Upload image
-app.post('/api/upload', upload.single('image'), (req, res) => {
+app.post('/api/upload', authMiddleware, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     res.json({ path: 'images/' + req.file.filename });
 });
@@ -117,7 +143,7 @@ app.get('/api/products/:id', async (req, res) => {
     else res.status(404).json({ error: 'Product not found' });
 });
 
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', authMiddleware, async (req, res) => {
     const newProduct = new Product({
         id: Date.now(),
         name: req.body.name,
@@ -130,7 +156,7 @@ app.post('/api/products', async (req, res) => {
     res.json(newProduct);
 });
 
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', authMiddleware, async (req, res) => {
     const product = await Product.findOneAndUpdate(
         { id: parseInt(req.params.id) },
         { $set: req.body },
@@ -140,13 +166,13 @@ app.put('/api/products/:id', async (req, res) => {
     else res.status(404).json({ error: 'Product not found' });
 });
 
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', authMiddleware, async (req, res) => {
     await Product.deleteOne({ id: parseInt(req.params.id) });
     res.json({ success: true });
 });
 
 // API: Orders
-app.get('/api/orders', async (req, res) => {
+app.get('/api/orders', authMiddleware, async (req, res) => {
     let query = {};
     if (req.query.status && req.query.status !== 'All') {
         query.status = req.query.status;
@@ -168,7 +194,7 @@ app.post('/api/orders', async (req, res) => {
     res.json(newOrder);
 });
 
-app.put('/api/orders/:id', async (req, res) => {
+app.put('/api/orders/:id', authMiddleware, async (req, res) => {
     const order = await Order.findOne({ id: req.params.id });
     if (!order) return res.status(404).json({ error: 'Order not found' });
     order.status = req.body.status;
@@ -177,7 +203,7 @@ app.put('/api/orders/:id', async (req, res) => {
     res.json(order);
 });
 
-app.delete('/api/orders/:id', async (req, res) => {
+app.delete('/api/orders/:id', authMiddleware, async (req, res) => {
     await Order.deleteOne({ id: req.params.id });
     res.json({ success: true });
 });

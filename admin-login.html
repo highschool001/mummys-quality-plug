@@ -32,6 +32,9 @@
     </div>
 </div>
 <script>
+// Get CSRF token on page load
+fetch('/api/csrf-token').then(r=>r.json()).then(d=>sessionStorage.setItem('csrfToken',d.csrfToken));
+
 async function login(){
     var pw = document.getElementById('admin-password').value;
     try {

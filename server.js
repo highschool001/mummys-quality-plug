@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
+const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 require('dotenv').config();
 
 const app = express();
@@ -60,6 +62,10 @@ const Order = mongoose.model('Order', orderSchema);
 // Security Middleware
 app.use(helmet());
 app.use(mongoSanitize());
+app.use(cookieParser());
+
+// CSRF Protection
+const csrfProtection = csrf({ cookie: true });
 
 // Rate limiter for login endpoint
 const loginLimiter = rateLimit({
@@ -71,7 +77,9 @@ const loginLimiter = rateLimit({
 // General rate limiter for all API routes
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100
+    max: 100,
+    // Allow CSRF token endpoint to bypass general rate limit
+    skip: (req) => req.path === '/api/csrf-token'
 });
 
 // Middleware
@@ -106,8 +114,13 @@ const upload = multer({ storage: storage });
 // Apply rate limiting to all /api routes
 app.use('/api', apiLimiter);
 
-// API: Login (with bcrypt)
-app.post('/api/login', loginLimiter, async (req, res) => {
+// CSRF Token endpoint (public, so login page can get a token)
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
+
+// API: Login
+app.post('/api/login', loginLimiter, csrfProtection, async (req, res) => {
     const { password } = req.body;
     const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
     if (valid) {
@@ -123,7 +136,7 @@ app.get('/api/categories', async (req, res) => {
     res.json(categories.map(c => c.name));
 });
 
-app.post('/api/categories', authMiddleware, async (req, res) => {
+app.post('/api/categories', authMiddleware, csrfProtection, async (req, res) => {
     const exists = await Category.findOne({ name: req.body.name });
     if (!exists) {
         await new Category({ name: req.body.name }).save();
@@ -132,13 +145,13 @@ app.post('/api/categories', authMiddleware, async (req, res) => {
     res.json(categories.map(c => c.name));
 });
 
-app.delete('/api/categories/:name', authMiddleware, async (req, res) => {
+app.delete('/api/categories/:name', authMiddleware, csrfProtection, async (req, res) => {
     await Category.deleteOne({ name: req.params.name });
     res.json({ success: true });
 });
 
 // API: Upload image
-app.post('/api/upload', authMiddleware, upload.single('image'), (req, res) => {
+app.post('/api/upload', authMiddleware, csrfProtection, upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     res.json({ path: 'images/' + req.file.filename });
 });
@@ -167,7 +180,7 @@ app.get('/api/products/:id', async (req, res) => {
     else res.status(404).json({ error: 'Product not found' });
 });
 
-app.post('/api/products', authMiddleware, async (req, res) => {
+app.post('/api/products', authMiddleware, csrfProtection, async (req, res) => {
     const newProduct = new Product({
         id: Date.now(),
         name: req.body.name,
@@ -180,7 +193,7 @@ app.post('/api/products', authMiddleware, async (req, res) => {
     res.json(newProduct);
 });
 
-app.put('/api/products/:id', authMiddleware, async (req, res) => {
+app.put('/api/products/:id', authMiddleware, csrfProtection, async (req, res) => {
     const product = await Product.findOneAndUpdate(
         { id: parseInt(req.params.id) },
         { $set: req.body },
@@ -190,7 +203,7 @@ app.put('/api/products/:id', authMiddleware, async (req, res) => {
     else res.status(404).json({ error: 'Product not found' });
 });
 
-app.delete('/api/products/:id', authMiddleware, async (req, res) => {
+app.delete('/api/products/:id', authMiddleware, csrfProtection, async (req, res) => {
     await Product.deleteOne({ id: parseInt(req.params.id) });
     res.json({ success: true });
 });
@@ -205,7 +218,7 @@ app.get('/api/orders', authMiddleware, async (req, res) => {
     res.json(orders);
 });
 
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', csrfProtection, async (req, res) => {
     const newOrder = new Order({
         id: 'MQP-' + Date.now().toString().slice(-8),
         customer: req.body.customer,
@@ -218,7 +231,7 @@ app.post('/api/orders', async (req, res) => {
     res.json(newOrder);
 });
 
-app.put('/api/orders/:id', authMiddleware, async (req, res) => {
+app.put('/api/orders/:id', authMiddleware, csrfProtection, async (req, res) => {
     const order = await Order.findOne({ id: req.params.id });
     if (!order) return res.status(404).json({ error: 'Order not found' });
     order.status = req.body.status;
@@ -227,7 +240,7 @@ app.put('/api/orders/:id', authMiddleware, async (req, res) => {
     res.json(order);
 });
 
-app.delete('/api/orders/:id', authMiddleware, async (req, res) => {
+app.delete('/api/orders/:id', authMiddleware, csrfProtection, async (req, res) => {
     await Order.deleteOne({ id: req.params.id });
     res.json({ success: true });
 });

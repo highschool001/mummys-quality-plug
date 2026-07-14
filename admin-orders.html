@@ -1,4 +1,3 @@
-cat > ~/mummys-quality-plug/admin-orders.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,12 +57,14 @@ cat > ~/mummys-quality-plug/admin-orders.html << 'ENDOFFILE'
 </section>
 <script>
 function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active');}
-function logout(){sessionStorage.removeItem('adminToken');window.location.href='admin-login.html';}
+function logout(){sessionStorage.removeItem('adminToken');sessionStorage.removeItem('csrfToken');window.location.href='admin-login.html';}
 
 function authFetch(url, opts = {}) {
     const token = sessionStorage.getItem('adminToken');
+    const csrfToken = sessionStorage.getItem('csrfToken');
     if (!opts.headers) opts.headers = {};
     if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+    if (csrfToken) opts.headers['X-CSRF-Token'] = csrfToken;
     return fetch(url, opts);
 }
 
@@ -78,8 +79,10 @@ function displayOrders(orders){
 function filterOrders(){loadOrders(document.getElementById('status-filter').value);}
 async function updateOrderStatus(id){var s=document.getElementById('status-'+id).value;await authFetch('/api/orders/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:s})});loadOrders(document.getElementById('status-filter').value);}
 async function deleteOrder(id){if(!confirm('Delete this order permanently?'))return;await authFetch('/api/orders/'+id,{method:'DELETE'});loadOrders(document.getElementById('status-filter').value);}
-document.addEventListener('DOMContentLoaded',function(){loadOrders('All');});
+document.addEventListener('DOMContentLoaded',function(){
+    fetch('/api/csrf-token').then(r=>r.json()).then(d=>sessionStorage.setItem('csrfToken',d.csrfToken));
+    loadOrders('All');
+});
 </script>
 </body>
 </html>
-ENDOFFILE

@@ -71,13 +71,15 @@ cat > ~/mummys-quality-plug/admin.html << 'ENDOFFILE'
 <div class="modal-overlay" id="category-modal"><div class="modal-box"><h3>Manage Categories</h3><ul class="cat-list" id="cat-list"></ul><div class="add-cat-row"><input type="text" id="new-category" placeholder="New category name"><button onclick="addCategory()">Add</button></div><div class="modal-btns"><button class="btn-cancel" onclick="closeCategoryModal()">Close</button></div></div></div>
 <script>
 function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active');}
-function logout(){sessionStorage.removeItem('adminToken');window.location.href='admin-login.html';}
+function logout(){sessionStorage.removeItem('adminToken');sessionStorage.removeItem('csrfToken');window.location.href='admin-login.html';}
 var allProducts=[],categories=[];
 
 function authFetch(url, opts = {}) {
     const token = sessionStorage.getItem('adminToken');
+    const csrfToken = sessionStorage.getItem('csrfToken');
     if (!opts.headers) opts.headers = {};
     if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+    if (csrfToken) opts.headers['X-CSRF-Token'] = csrfToken;
     return fetch(url, opts);
 }
 
@@ -101,8 +103,12 @@ function closeCategoryModal(){document.getElementById('category-modal').classLis
 async function loadCategoryList(){var r=await authFetch('/api/categories');var cats=await r.json();document.getElementById('cat-list').innerHTML=cats.map(function(c){return'<li><span>'+c+'</span><button onclick="deleteCategory(\''+c+'\')">Delete</button></li>';}).join('');}
 async function addCategory(){var inp=document.getElementById('new-category');var n=inp.value.trim();if(!n)return;await authFetch('/api/categories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})});inp.value='';loadCategoryList();loadCategories();}
 async function deleteCategory(name){if(!confirm('Delete category "'+name+'"? Products in this category will not be deleted.'))return;await authFetch('/api/categories/'+encodeURIComponent(name),{method:'DELETE'});loadCategoryList();loadCategories();}
-document.addEventListener('DOMContentLoaded',function(){loadCategories();loadAdminProducts();});
+document.addEventListener('DOMContentLoaded',function(){
+    fetch('/api/csrf-token').then(r=>r.json()).then(d=>sessionStorage.setItem('csrfToken',d.csrfToken));
+    loadCategories();loadAdminProducts();
+});
 </script>
 </body>
 </html>
 ENDOFFILE
+

@@ -60,12 +60,34 @@ const Category = mongoose.model('Category', categorySchema);
 const Order = mongoose.model('Order', orderSchema);
 
 // Security Middleware
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-hashes'"],
+            scriptSrcAttr: ["'unsafe-inline'", "'unsafe-hashes'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:"],
+            connectSrc: ["'self'"],
+            fontSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            mediaSrc: ["'self'"],
+            frameSrc: ["'none'"],
+        }
+    }
+}));
 app.use(mongoSanitize());
 app.use(cookieParser());
 
 // CSRF Protection
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({ 
+    cookie: {
+        key: '_csrf',
+        sameSite: 'lax',
+        secure: false,
+        httpOnly: false
+    }
+});
 
 // Rate limiter for login endpoint
 const loginLimiter = rateLimit({
@@ -78,7 +100,6 @@ const loginLimiter = rateLimit({
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
-    // Allow CSRF token endpoint to bypass general rate limit
     skip: (req) => req.path === '/api/csrf-token'
 });
 
@@ -114,7 +135,7 @@ const upload = multer({ storage: storage });
 // Apply rate limiting to all /api routes
 app.use('/api', apiLimiter);
 
-// CSRF Token endpoint (public, so login page can get a token)
+// CSRF Token endpoint
 app.get('/api/csrf-token', csrfProtection, (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
 });
